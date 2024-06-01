@@ -1,4 +1,4 @@
-import { nextui } from "@nextui-org/theme";
+import { navbar, nextui } from "@nextui-org/theme";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -21,7 +21,10 @@ module.exports = {
       ls: { max: "320px" },
     },
     extend: {
-      colors: {},
+      colors: {
+        gray: '#333333',
+        blackRoot: '#252525'
+      },
       backgroundImage: {},
     },
   },
