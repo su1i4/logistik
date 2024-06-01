@@ -1,10 +1,15 @@
-
 import { configureStore } from "@reduxjs/toolkit";
 
+import CargoService from "@/services/cargo.service";
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    [CargoService.reducerPath]: CargoService.reducer
+  },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(),
+    getDefaultMiddleware().concat(
+      CargoService.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

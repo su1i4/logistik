@@ -23,7 +23,8 @@ module.exports = {
     extend: {
       colors: {
         gray: '#333333',
-        blackRoot: '#252525'
+        blackRoot: '#252525',
+        milk: '#FDFFF5'
       },
       backgroundImage: {},
     },

@@ -29,10 +29,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-  is404
 }: {
   children: React.ReactNode;
-  is404: boolean
 }) {
   return (
     <html suppressHydrationWarning lang="en">
@@ -40,12 +38,12 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          // fontMono.variable,
+          fontMono.variable,
         )}
       >
         <ReduxProvider>
           <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-            <div className="relative flex flex-col h-screen">
+            <div className="relative flex flex-col items-center">
               <Navbar />
               <main className="container">
                 {children}
