@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
-import { Providers } from '@/providers/providers';
+import { Providers } from "@/providers/providers";
 
 import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
@@ -38,16 +38,14 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontMono.variable,
+          fontMono.variable
         )}
       >
         <ReduxProvider>
           <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
             <div className="relative flex flex-col items-center">
               <Navbar />
-              <main className="container">
-                {children}
-              </main>
+              <main className="container">{children}</main>
             </div>
           </Providers>
         </ReduxProvider>
