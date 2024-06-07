@@ -9,10 +9,13 @@ const CargoService = createApi({
     getCargo : builder.query<any, CargoQueryParams>({
       query: ({page, size}) => `cargo?page=${page}&size=${size}`,
     }),
+    getPoints: builder.query<any, void>({
+      query: () => 'common/COUNTRY'
+    })
   }),
 });
 
 export default CargoService;
 
-export const { useGetCargoQuery } =
+export const { useGetCargoQuery, useGetPointsQuery } =
   CargoService;
