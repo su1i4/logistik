@@ -66,6 +66,7 @@ export const MiniCalendar = ({
     <div className="w-full min-w-[235px] h-[260px] p-2">
       <div className="flex items-center justify-between gap-1 border-b px-3">
         <div
+          role="button"
           className="min-w-[200px] flex items-center justify-start gap-1 relative cursor-pointer"
           onClick={() => setShowMonth(!isShowMonth)}
         >
@@ -87,6 +88,7 @@ export const MiniCalendar = ({
             <div className="w-[170px] h-[202px] bg-white rounded-2xl absolute top-[50px] left-[-20px] grid grid-cols-2 gap-1 p-1 shadow">
               {typeMonth.map((item, index) => (
                 <div
+                  role="button"
                   onClick={() => handleMonthChange(index)}
                   key={index}
                   className="px-2 py-1 hover:bg-[#eeeff3] rounded-xl flex items-center justify-center cursor-pointer text-sm"
@@ -98,6 +100,7 @@ export const MiniCalendar = ({
           )}
         </div>
         <div
+          role="button"
           onClick={() => setShowYear(!isShowYear)}
           className="w-full flex items-center justify-start cursor-pointer gap-1 relative"
         >
@@ -119,6 +122,7 @@ export const MiniCalendar = ({
             <div className="w-[80px] h-[200px] bg-white rounded-xl absolute top-[50px] right-0 flex flex-col items-center justify-center p-1 shadow">
               {typeYear.map((item) => (
                 <div
+                  role="button"
                   key={item}
                   onClick={() => handleYearChange(item)}
                   className="w-full px-2 py-1 hover:bg-[#eeeff3] rounded-md flex items-center justify-center cursor-pointer text-sm"
@@ -153,6 +157,7 @@ export const MiniCalendar = ({
           );
           return (
             <div
+              role="button"
               className={clsx(
                 "w-7 h-7 flex flex-col items-center justify-center text-center font-sans text-sm text-black cursor-pointer hover:bg-[#d0d8e4] hover:text-black rounded-full",
                 {
