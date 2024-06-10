@@ -7,6 +7,7 @@ import { Providers } from "@/providers/providers";
 import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
 import { Navbar } from "@/screens/navbar/index";
+import { Footer } from "@/screens/footer";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 
 export const metadata: Metadata = {
@@ -46,6 +47,7 @@ export default function RootLayout({
             <div className="relative flex flex-col items-center">
               <Navbar />
               <main className="container">{children}</main>
+              <Footer />
             </div>
           </Providers>
         </ReduxProvider>

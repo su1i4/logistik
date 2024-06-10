@@ -7,8 +7,9 @@ export const Banner = () => {
         backgroundImage: `url(${TruckImage.src})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed", 
       }}
-      className="relative w-full h-[50vh] p-8"
+      className="relative w-full h-[50vh] max-h-[600px] p-8"
     >
       <div className="absolute inset-0 bg-black opacity-60"></div>
       <h1 className="relative z-10 text-white text-3xl font-[400] font-mono">

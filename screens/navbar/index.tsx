@@ -14,37 +14,35 @@ export const Navbar = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <>
+    <header className="max-w-[1540px] sticky top-0 w-full h-[60px] bg-grayRoot flex justify-between items-center px-12 z-[99999]">
       <Login isOpen={isOpen} onOpenChange={onOpenChange} />
-      <header className="w-full h-[60px] bg-grayRoot flex justify-between items-center px-12">
-        <Link href="/">
-          <div className="flex items-center gap-1 cursor-pointer">
-            <Logo />
-            <h1 className="text-white font-mono text-lg">KG - LOGISTIK</h1>
-          </div>
-        </Link>
-        <div className="flex items-center gap-5">
-          <Link href="/contacts">
-            <Button
-              className="font-mono"
-              radius="full"
-              variant="bordered"
-              startContent={<MdLocalPhone className="text-white text-lg" />}
-            >
-              <p className="text-white">Контакты</p>
-            </Button>
-          </Link>
+      <Link href="/">
+        <div className="flex items-center gap-1 cursor-pointer">
+          <Logo />
+          <h1 className="text-white font-mono text-lg">KG - LOGISTIK</h1>
+        </div>
+      </Link>
+      <div className="flex items-center gap-5">
+        <Link href="/contacts">
           <Button
-            onPress={onOpen}
             className="font-mono"
             radius="full"
             variant="bordered"
-            startContent={<FaBoxOpen className="text-white text-lg" />}
+            startContent={<MdLocalPhone className="text-white text-lg" />}
           >
-            <p className="text-white">Добавить груз</p>
+            <p className="text-white">Контакты</p>
           </Button>
-        </div>
-      </header>
-    </>
+        </Link>
+        <Button
+          onPress={onOpen}
+          className="font-mono"
+          radius="full"
+          variant="bordered"
+          startContent={<FaBoxOpen className="text-white text-lg" />}
+        >
+          <p className="text-white">Добавить груз</p>
+        </Button>
+      </div>
+    </header>
   );
 };

@@ -1,8 +1,19 @@
 import { GoArrowSwitch } from "react-icons/go";
 
-export const Switch = () => {
+export const Switch = ({ setFilter, filter }: any) => {
+  const handleChange = () => {
+    setFilter((prevFilter: any) => ({
+      ...prevFilter,
+      ByFrom: prevFilter.ByTo,
+      ByTo: prevFilter.ByFrom,
+    }));
+  };
+
   return (
-    <div className="bg-grayRoot rounded-full p-1 mb-2 cursor-pointer">
+    <div
+      onClick={handleChange}
+      className="bg-blackRoot rounded-full p-1 mb-2 cursor-pointer"
+    >
       <GoArrowSwitch className="text-white text-lg" />
     </div>
   );
