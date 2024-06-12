@@ -28,6 +28,7 @@ export const MiniCalendar = ({
   newDate,
   setNewDate,
 }: MiniCalendarProps): JSX.Element => {
+  newDate = newDate || new Date()
   const startOfDay = startOfMonth(newDate);
   const endOfDay = endOfMonth(newDate);
   const numDays = differenceInDays(endOfDay, startOfDay) + 1;
@@ -63,7 +64,7 @@ export const MiniCalendar = ({
   }
 
   return (
-    <div className="w-full min-w-[235px] h-[260px] p-2">
+    <div className="w-full min-w-[200px] h-[260px] p-2 bg-gray-50">
       <div className="flex items-center justify-between gap-1 border-b px-3">
         <div
           role="button"

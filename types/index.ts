@@ -8,8 +8,8 @@ export interface CargoCardType {
     cargoId: number
     startDate: string
     endDate: string
-    ByFrom: string
-    ByTo: string
+    ByFrom: {label: string, value: number}
+    ByTo: {label: string, value: number}
     productName: string
     BySize: string
     ByWeight: string

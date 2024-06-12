@@ -10,10 +10,9 @@ import {
 } from "@/services/cargo.service";
 
 export const Filter = () => {
-  const [pagination, setPagination] = useState<any>({
-    page: 1,
-    size: 10,
-  });
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+
   const [filter, setFilter] = useState<any>({
     ByFrom: "",
     ByTo: "",
@@ -25,20 +24,53 @@ export const Filter = () => {
     endPeriod: null,
   });
 
-  const { data = { content: [] }, isLoading } = useGetCargoQuery({
-    page: pagination.page,
-    size: pagination.size,
-    params: filter,
-  });
+  const [carId, setCarId] = useState([]);
+
+  const handleClear = () => {
+    setFilter({
+      ByFrom: "",
+      ByTo: "",
+      ByWeightFrom: "",
+      ByWeightTo: "",
+      BySizeFrom: "",
+      BySizeTo: "",
+      startPeriod: null,
+      endPeriod: null,
+    });
+  };
+
+  const { data = { content: [], totalPages: 0 }, isLoading } = useGetCargoQuery(
+    {
+      page: page,
+      size: size,
+      params: filter,
+      carId: carId,
+    }
+  );
   const { data: Points = [], isLoading: PointLoading } = useGetPointsQuery();
   const { data: Cars = [], isLoading: CarsLoading } = useGetCarsQuery();
 
   return (
     <section className="w-full min-h-screen bg-blackRoot relative z-50 border-b-[1px] border-solid border-gray-400">
       <div className="absolute top-[-80px] w-full p-8 h-fit z-[9999]">
-        <CargoFilter filter={filter} setFilter={setFilter} Points={Points} Cars={Object(Cars[0])} CarsLoading={CarsLoading} />
+        <CargoFilter
+          filter={filter}
+          setFilter={setFilter}
+          Points={Points}
+          Cars={Cars}
+          CarsLoading={CarsLoading}
+          handleClear={handleClear}
+          carId={carId}
+          setCarId={setCarId}
+        />
       </div>
-      <CargoList data={data?.content} />
+      <CargoList
+        data={data?.content}
+        setPage={setPage}
+        page={page}
+        size={size}
+        totalPages={data?.totalPages}
+      />
     </section>
   );
 };

@@ -6,11 +6,9 @@ export const CargoCard = (props: CargoCardType) => {
   return (
     <div className="bg-grayRoot w-full grid grid-cols-5 h-[120px] rounded-md p-2 font-mono text-white">
       <div className="flex flex-col gap-1">
-        {/* {props.ByFrom} */}
-        Бишкек
+        {props.ByFrom.label}
         <IoArrowUpSharp className="text-xl text-green-700 rotate-180" />
-        {/* {props.ByTo} */}
-        Каракол
+        {props.ByTo.label}
       </div>
       <div>{props.productName}</div>
       <div>

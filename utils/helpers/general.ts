@@ -1,28 +1,52 @@
 interface AnyObject {
-    [key: string]: any;
-  }
+  [key: string]: any;
+}
 
 export const clearEmptyProps = (object: AnyObject): AnyObject => {
   const returnedObject: AnyObject = {};
   Object.keys(object).forEach((key: string) => {
-    if (object[key]) {
-      returnedObject[key] = object[key];
+    const value = object[key];
+    if (value) {
+      if (value instanceof Date) {
+        const year = value.getFullYear();
+        const month = String(value.getMonth() + 1).padStart(2, "0");
+        const day = String(value.getDate()).padStart(2, "0");
+        returnedObject[key] = `${year}-${month}-${day}`;
+      } else {
+        returnedObject[key] = value;
+      }
     }
   });
 
   return returnedObject;
 };
 
+export const arrayToCommaSeparatedString = (array: any) => {
+  if (Array.isArray(array)) {
+    return array.join(",");
+  }
+  return "";
+};
 
 export const TYPES_CARS: AnyObject = {
-  allCar: 'Все',
-  popularCar: 'Популярные'
-}
+  allCar: "Все",
+  popularCar: "Популярные",
+};
 
-export const  FormatDateToRussian = (dateStr: string): string =>  {
+export const FormatDateToRussian = (dateStr: string): string => {
   const months = [
-    'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря",
   ];
 
   const date = new Date(dateStr);
@@ -30,27 +54,5 @@ export const  FormatDateToRussian = (dateStr: string): string =>  {
   const month = months[date.getMonth()];
   const day = date.getDate();
 
-  return `${day} ${month} ${year} года`;
-}
-
-export const FilterInputStyles = {
-  label: "text-white dark:text-white white", 
-  // input: [
-  //   "bg-transparent",
-  //   "text-black/90 dark:text-white/90",
-  //   "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-  // ],
-  // innerWrapper: "bg-transparent",
-  // inputWrapper: [
-  //   "shadow-xl",
-  //   "bg-default-200/50",
-  //   "dark:bg-default/60",
-  //   "backdrop-blur-xl",
-  //   "backdrop-saturate-200",
-  //   "hover:bg-default-200/70",
-  //   "focus-within:!bg-default-200/50",
-  //   "dark:hover:bg-default/70",
-  //   "dark:focus-within:!bg-default/60",
-  //   "!cursor-text",
-  // ],
+  return `${day} ${month} ${year} г`;
 };
