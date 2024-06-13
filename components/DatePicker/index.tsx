@@ -23,7 +23,7 @@ export const DatePicker = ({
           type="text"
           label={<span className="text-white">{show && "Дата поставки"}</span>}
           fullWidth={true}
-          className="font-mono w-48"
+          className="font-mono w-48 md:w-full"
           radius="none"
           placeholder=" "
           labelPlacement="outside"

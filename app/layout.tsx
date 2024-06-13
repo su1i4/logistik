@@ -6,7 +6,7 @@ import { Providers } from "@/providers/providers";
 
 import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
-import { Navbar } from "@/screens/navbar/index";
+import { Header } from "@/screens/navbar/index";
 import { Footer } from "@/screens/footer";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 
@@ -45,7 +45,7 @@ export default function RootLayout({
         <ReduxProvider>
           <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
             <div className="relative flex flex-col items-center">
-              <Navbar />
+              <Header />
               <main className="container">{children}</main>
               <Footer />
             </div>

@@ -1,7 +1,7 @@
 import { FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query";
 
 export const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://backend.domeinpro.online/',
+    baseUrl: 'http://ec2-18-234-83-112.compute-1.amazonaws.com/',
     prepareHeaders(headers) {
         if (!headers.has("Content-Type")) {
             headers.set("Content-Type", "application/json");

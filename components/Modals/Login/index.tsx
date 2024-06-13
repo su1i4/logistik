@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -8,6 +10,7 @@ import {
   Button,
   Input,
 } from "@nextui-org/react";
+import { useLazyLoginQuery } from "@/services/cargo.service";
 
 import { FaUser } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa6";
@@ -18,6 +21,30 @@ interface ModalProps {
 }
 
 export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
+  const [login, { data, isLoading }] = useLazyLoginQuery();
+  const [state, setState] = useState({
+    login: "",
+    password: "",
+  });
+
+  const changeValue = (event: any) => {
+    const { name, value } = event.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
+  };
+
+  const handlePost = async (event: any) => {
+    const response = await login({ body: state });
+    console.log("Response ", response);
+    try {
+      // onOpenChange(false)
+    } catch (error) {}
+  };
+
+  console.log(state, "this is state");
+
   return (
     <>
       <Modal
@@ -43,6 +70,9 @@ export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
                   placeholder="Введите логин..."
                   className="font-mono"
                   radius="sm"
+                  name="login"
+                  value={state.login}
+                  onChange={changeValue}
                   startContent={
                     <FaUser className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
                   }
@@ -55,12 +85,17 @@ export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
                   placeholder="Введите пароль..."
                   className="font-mono"
                   radius="sm"
+                  name="password"
+                  value={state.password}
+                  onChange={changeValue}
                   startContent={
                     <FaLock className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
                   }
                 />
                 <Button
                   fullWidth={true}
+                  onClick={handlePost}
+                  isLoading={isLoading}
                   className="font-mono mt-3 text-lg font-medium bg-gray-100 text-black/60"
                 >
                   Войти
