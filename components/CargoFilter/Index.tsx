@@ -46,7 +46,13 @@ export const CargoFilter = ({
             labelPlacement="outside"
             placeholder="Например, Бишкек"
             radius="none"
-            renderValue={filter.ByFrom.label}
+            renderValue={(filter: any) => (
+              <div>
+                <span style={{ marginRight: "8px" }}>
+                  {filter.ByFrom}
+                </span>
+              </div>
+            )}
           >
             {Points.map((item: any, index: number) => (
               <SelectItem

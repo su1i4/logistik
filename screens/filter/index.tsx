@@ -14,7 +14,7 @@ export const Filter = () => {
   const [size, setSize] = useState(10);
 
   const [filter, setFilter] = useState<any>({
-    ByFrom: "",
+    ByFrom: "Sulaiman",
     ByTo: "",
     ByWeightFrom: "",
     ByWeightTo: "",

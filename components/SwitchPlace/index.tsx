@@ -12,7 +12,7 @@ export const Switch = ({ setFilter, filter }: any) => {
   return (
     <div
       onClick={handleChange}
-      className="bg-blackRoot rounded-full p-1 mb-2 cursor-pointer md:mt-2"
+      className="bg-blackRoot rounded-full p-1 mb-2 cursor-pointer md:mt-2 active:scale-105 transition-all duration-100"
     >
       <GoArrowSwitch className="text-white text-lg md:rotate-90 " />
     </div>
