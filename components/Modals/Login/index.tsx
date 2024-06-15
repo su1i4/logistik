@@ -37,13 +37,10 @@ export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
 
   const handlePost = async (event: any) => {
     const response = await login({ body: state });
-    console.log("Response ", response);
     try {
       // onOpenChange(false)
     } catch (error) {}
   };
-
-  console.log(state, "this is state");
 
   return (
     <>

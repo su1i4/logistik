@@ -14,7 +14,7 @@ export const Filter = () => {
   const [size, setSize] = useState(10);
 
   const [filter, setFilter] = useState<any>({
-    ByFrom: "Sulaiman",
+    ByFrom: "",
     ByTo: "",
     ByWeightFrom: "",
     ByWeightTo: "",
@@ -37,18 +37,21 @@ export const Filter = () => {
       startPeriod: null,
       endPeriod: null,
     });
+    setCarId([])
   };
 
   const { data = { content: [], totalPages: 0 }, isLoading } = useGetCargoQuery(
     {
       page: page,
       size: size,
-      params: filter,
-      carId: carId,
+      params: {...filter, Byfrom: filter.ByFrom.value, ByTo: filter.ByTo.value},
+      carId: carId.map((item: any) => item.value ),
     }
   );
   const { data: Points = [], isLoading: PointLoading } = useGetPointsQuery();
   const { data: Cars = [], isLoading: CarsLoading } = useGetCarsQuery();
+
+  console.log(Points, Cars, data, 'all Data from back')
 
   return (
     <section className="w-full min-h-screen bg-blackRoot relative z-50 border-b-[1px] border-solid border-gray-400">

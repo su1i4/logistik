@@ -13,7 +13,7 @@ const CargoService = createApi({
     getCargo: builder.query<any, any>({
       query: ({ params, page, size, carId }) => {
         return {
-          url: `cargo?page=${page}&size=${size}${carId.length ? `&carId=${arrayToCommaSeparatedString(carId)}` : ""}`,
+          url: `cargo?page=${page}&size=${size}${carId.length && `&carId=${arrayToCommaSeparatedString(carId)}`}`,
           params: { ...clearEmptyProps(params) },
         };
       },

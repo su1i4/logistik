@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@nextui-org/react";
-import { MiniCalendar } from "../mini-calendar/index"
+import { MiniCalendar } from "../mini-calendar/index";
 import { FormatDateToRussian } from "@/utils/helpers/general";
 
 export const DatePicker = ({
@@ -27,17 +27,32 @@ export const DatePicker = ({
           radius="none"
           placeholder=" "
           labelPlacement="outside"
-          value={value ? `${placeholder} ${FormatDateToRussian(value)}`: ''}
+          classNames={{
+            label: "text-black/50 dark:text-white/90",
+            input: [
+              "bg-transparent",
+              "text-black/40 dark:text-white/90",
+              "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+            ],
+          }}
+          value={
+            value
+              ? `${placeholder} ${FormatDateToRussian(value)}`
+              : `${placeholder}`
+          }
           onChange={(e) => changeValue(e.target.value, name)}
-        //   endContent={
-        //     <FaCalendarAlt className="text-gray-500 text-sm min-w-3 cursor-pointer" />
-        //   }
+          //   endContent={
+          //     <FaCalendarAlt className="text-gray-500 text-sm min-w-3 cursor-pointer" />
+          //   }
           isClearable
           onClear={() => changeValue(null, name)}
         />
       </PopoverTrigger>
       <PopoverContent>
-        <MiniCalendar newDate={value} setNewDate={(newDate) => changeValue(newDate, name)} />
+        <MiniCalendar
+          newDate={value}
+          setNewDate={(newDate) => changeValue(newDate, name)}
+        />
       </PopoverContent>
     </Popover>
   );

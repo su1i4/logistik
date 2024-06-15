@@ -36,6 +36,8 @@ export const CargoFilter = ({
     setCarId(ids);
   };
 
+  // console.log(filter, carId, 'this is fucking annoying')
+
   return (
     <div className="w-full h-full bg-grayRoot rounded-md p-4">
       <div className="flex justify-between items-center gap-4 md:flex-col md:w-full">
@@ -46,17 +48,24 @@ export const CargoFilter = ({
             labelPlacement="outside"
             placeholder="Например, Бишкек"
             radius="none"
-            renderValue={(filter: any) => (
-              <div>
-                <span style={{ marginRight: "8px" }}>
-                  {filter.ByFrom}
-                </span>
-              </div>
-            )}
+            renderValue={() => {
+              if (filter.ByFrom) {
+                return (
+                  <div>
+                    <span className="text-black">{filter.ByFrom.label}</span>
+                  </div>
+                );
+              }
+              return (
+                <div>
+                  <span className="text-grayRoot/70">Например, Бишкек</span>
+                </div>
+              );
+            }}
           >
             {Points.map((item: any, index: number) => (
               <SelectItem
-                onClick={() => changeValue(item.value, "ByFrom")}
+                onClick={() => changeValue(item, "ByFrom")}
                 key={index}
               >
                 {item.label}
@@ -71,11 +80,24 @@ export const CargoFilter = ({
               label={<span className="text-white">Куда</span>}
               placeholder="Например, Каракол"
               radius="none"
-              renderValue={filter.ByTo.label}
+              renderValue={() => {
+                if (filter.ByTo) {
+                  return (
+                    <div>
+                      <span className="text-black">{filter.ByTo.label}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <div>
+                    <span className="text-grayRoot/70">Например, Каракол</span>
+                  </div>
+                );
+              }}
             >
               {Points.map((item: any, index: number) => (
                 <SelectItem
-                  onClick={() => changeValue(item.value, "ByTo")}
+                  onClick={() => changeValue(item, "ByTo")}
                   key={index}
                 >
                   {item.label}
@@ -170,12 +192,33 @@ export const CargoFilter = ({
               radius="none"
               selectionMode="multiple"
               fullWidth={true}
+              renderValue={() => {
+                if (carId.length) {
+                  return (
+                    <div>
+                      {carId.map((item: any, index: number) => (
+                        <span key={index} className="text-black mr-1">
+                          {item.label},
+                        </span>
+                      ))}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div>
+                      <span className="text-grayRoot/70">
+                        Например, Крытый
+                      </span>
+                    </div>
+                  );
+                }
+              }}
             >
               {Object.entries(Cars).map(([key, items]: any) => (
                 <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
                   {items.map((item: any, itemIndex: any) => (
                     <SelectItem
-                      onClick={() => handleSelectChange(item.value)}
+                      onClick={() => handleSelectChange(item)}
                       key={`${key}-${itemIndex}`}
                     >
                       {item.label}
