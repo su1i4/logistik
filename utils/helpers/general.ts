@@ -58,3 +58,5 @@ export const FormatDateToRussian = (dateStr: string): string => {
 
   return `${day} ${month} ${year} г`;
 };
+
+export const PAGE_SIZES = [5, 10, 15, 20]
