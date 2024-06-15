@@ -25,7 +25,7 @@ export const CargoList = ({
   const [showIndex, setShowIndex] = useState(-1);
 
   return (
-    <div className="p-8 md:p-4 xs:p-2 pt-[145px] md:pt-[420px] sm:pt-[570px] xs:pt-[600px]">
+    <div className="p-8 md:p-4 xs:p-2 pt-[145px] md:pt-[420px] sm:pt-[510px] xs:pt-[490px]">
       <div className="flex justify-between items-end">
         <p className=" text-milk text-md bg-grayRoot rounded-t-md p-2 xs:text-sm font-medium">
           Найдено: {data?.length} грузов

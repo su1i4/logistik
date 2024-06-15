@@ -36,8 +36,6 @@ export const CargoFilter = ({
     setCarId(ids);
   };
 
-  // console.log(filter, carId, 'this is fucking annoying')
-
   return (
     <div className="w-full h-full bg-grayRoot rounded-md p-4">
       <div className="flex justify-between items-center gap-4 md:flex-col md:w-full">

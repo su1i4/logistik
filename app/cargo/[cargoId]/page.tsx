@@ -54,29 +54,29 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
       <div className="w-full pr-10 h-fit flex flex-col gap-5 xs:gap-3 items-start font-mono lg-[30vh] lg:pr-0">
         <div className="flex gap-3 text-white text-lg items-center">
           <FaRoad className="text-milk" />
-          {data.ByFrom.label}
+          {data?.ByFrom?.label}
           <IoArrowUpSharp className="text-xl text-green-700 rotate-90" />
-          {data.ByTo.label}
+          {data?.ByTo?.label}
         </div>
         <div className="xs:text-sm flex gap-3 text-white items-center">
           <FaBoxOpen />
-          {data.productName}
+          {data?.productName}
         </div>
         <div className="xs:text-sm flex items-center gap-3 text-white">
           <FaWeightHanging />
           <p className="md:flex justify-start gap-1">
             <span>
-              {data.ByWeight} кг / {data.BySize} м³
+              {data?.ByWeight} кг / {data?.BySize} м³
             </span>
           </p>
         </div>
         <div className="flex gap-3 xs:text-sm text-white">
           <FaCalendarDay/>
-          {FormatDateToRussian(data.startDate)}
+          {FormatDateToRussian(data?.startDate)}
           <IoArrowUpSharp className="text-xl text-green-700 rotate-90" />
-          {FormatDateToRussian(data.endDate)}
+          {FormatDateToRussian(data?.endDate)}
         </div>
-        <div className="text-white flex items-start gap-2"><BsChatRightDotsFill className="text-milk mt-[6px]" />{data.ByComment}</div>
+        <div className="text-white flex items-start gap-2"><BsChatRightDotsFill className="text-milk mt-[6px]" />{data?.ByComment}</div>
         <div className="flex flex-col w-full  pt-4 gap-4 lg:flex-row">
           <a href="tel:">
             <Button

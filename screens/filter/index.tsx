@@ -51,10 +51,6 @@ export const Filter = () => {
   const { data: Points = [], isLoading: PointLoading } = useGetPointsQuery();
   const { data: Cars = [], isLoading: CarsLoading } = useGetCarsQuery();
 
-  console.log(Points, Cars, data, 'all Data from back')
-
-  console.log(page, size, 'this is page')
-
   return (
     <section className="w-full min-h-screen bg-blackRoot relative z-50 border-b-[1px] border-solid border-gray-400">
       <div className="absolute top-[-80px] w-full p-8 md:p-4 xs:p-2 h-fit z-[9999]">
