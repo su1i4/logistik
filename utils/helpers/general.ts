@@ -60,3 +60,10 @@ export const FormatDateToRussian = (dateStr: string): string => {
 };
 
 export const PAGE_SIZES = [5, 10, 15, 20]
+
+function getValueOrDash(value: any) {
+  if (value === null || value === undefined || value === '') {
+    return '-';
+  }
+  return value;
+}

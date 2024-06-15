@@ -63,6 +63,9 @@ export const CargoFilter = ({
               );
             }}
           >
+            <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
+              {"--------"}
+            </SelectItem>
             {Points.map((item: any, index: number) => (
               <SelectItem
                 onClick={() => changeValue(item, "ByFrom")}
@@ -95,6 +98,9 @@ export const CargoFilter = ({
                 );
               }}
             >
+              <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
+                {"--------"}
+              </SelectItem>
               {Points.map((item: any, index: number) => (
                 <SelectItem
                   onClick={() => changeValue(item, "ByTo")}
@@ -110,7 +116,7 @@ export const CargoFilter = ({
           <div className="md:w-full flex items-center gap-[1px]">
             <Input
               type="number"
-              label={<span className="text-white">Вес/кг</span>}
+              label={<span className="text-white">Вес, кг</span>}
               fullWidth={true}
               placeholder="От"
               className="font-mono max-w-32 min-w-32 md:max-w-full"
@@ -138,7 +144,7 @@ export const CargoFilter = ({
           <div className="md:w-full flex items-center gap-[1px] ">
             <Input
               type="number"
-              label={<span className="text-white">Обьем, m3</span>}
+              label={<span className="text-white">Обьем, м³</span>}
               fullWidth={true}
               placeholder="От"
               className="font-mono max-w-32 min-w-32 md:max-w-full"
@@ -206,9 +212,7 @@ export const CargoFilter = ({
                 } else {
                   return (
                     <div>
-                      <span className="text-grayRoot/70">
-                        Например, Крытый
-                      </span>
+                      <span className="text-grayRoot/70">Например, Крытый</span>
                     </div>
                   );
                 }

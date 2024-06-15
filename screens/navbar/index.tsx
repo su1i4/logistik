@@ -1,25 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Logo } from "@/components/icons";
 import { Button } from "@nextui-org/react";
 import { FaBoxOpen } from "react-icons/fa";
 import { MdLocalPhone } from "react-icons/md";
 import { useWindowWidth } from "@/utils/helpers/clientFunctions";
 import dynamic from "next/dynamic";
-import Truck from '@/public/animations/Truck.json'
+import Truck from "@/public/animations/Truck.json";
 import Link from "next/link";
-
+import DynamicLottieComponent from "@/components/car-animation/index";
 import { useDisclosure } from "@nextui-org/react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@nextui-org/react";
+import { Navbar, NavbarMenuToggle, NavbarMenu } from "@nextui-org/react";
 
 import { Login } from "@/components/Modals/Login";
 
@@ -27,10 +19,15 @@ export const Header = () => {
   const width = useWindowWidth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [showAnimation, setShowAnimation] = useState(true);
 
-  const DynamicLottieComponent = dynamic(() => import("lottie-react"), {
-    ssr: false,
-  });
+  const toggleAnimation = useCallback(() => {
+    setShowAnimation((prevShowAnimation) => !prevShowAnimation);
+  }, []);
+
+  // const DynamicLottieComponent = dynamic(() => import("lottie-react"), {
+  //   ssr: false,
+  // });
 
   return (
     <>
@@ -42,12 +39,15 @@ export const Header = () => {
       >
         <Link href="/">
           <div className="flex items-center gap-1 cursor-pointer xs:ml-[-25px]">
-            <DynamicLottieComponent
+            {/* <DynamicLottieComponent
               animationData={Truck}
               loop={true}
               className="w-24 h-24 mb-2"
-            />
-            <h1 className="text-white font-mono text-lg ml-[-10px] xs:ml-[-15px]">LOGISTIK-KG</h1>
+            /> */}
+            {showAnimation && <DynamicLottieComponent />}
+            <h1 className="text-white font-mono text-lg ml-[-10px] xs:ml-[-15px]">
+              LOGISTIK-KG
+            </h1>
           </div>
         </Link>
         <div className="flex items-center gap-5 md:hidden ">

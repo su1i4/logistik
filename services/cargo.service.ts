@@ -18,6 +18,9 @@ const CargoService = createApi({
         };
       },
     }),
+    getOneCargo: builder.query<any, any>({
+      query: (cargoId) => `cargo/${cargoId}`,
+    }),
     getPoints: builder.query<any, void>({
       query: () => "common/COUNTRY",
     }),
@@ -42,5 +45,6 @@ export const {
   useGetCargoQuery,
   useGetPointsQuery,
   useGetCarsQuery,
-  useLazyLoginQuery
+  useLazyLoginQuery,
+  useGetOneCargoQuery
 } = CargoService;

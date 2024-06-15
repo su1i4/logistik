@@ -1,61 +1,67 @@
 import React from "react";
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
+import {Pagination, PaginationItemType} from "@nextui-org/react";
+import { IoIosArrowBack } from "react-icons/io";
+import { cn } from "@nextui-org/react";
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
-
-export const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
-  const renderPageLinks = () => {
-    const pageLinks = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      pageLinks.push(
-        <button
-          key={page}
-          className={`mx-1 w-10 h-10 rounded-full ${
-            page === currentPage
-              ? "bg-[#4da435] text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-          onClick={() => onPageChange(page)}
-        >
-          {page}
+export default function CustomPagination({totalPages, initialPage, handlePaginationChange}: any) {
+  const renderItem = ({
+    ref,
+    key,
+    value,
+    isActive,
+    onNext,
+    onPrevious,
+    setPage,
+    className,
+  }: any) => {
+    if (value === PaginationItemType.NEXT) {
+      return (
+        <button key={key} className={cn(className, "bg-default-200/50 min-w-8 w-8 h-8")} onClick={onNext}>
+          <IoIosArrowBack className="rotate-180" />
         </button>
       );
     }
 
-    return pageLinks;
+    if (value === PaginationItemType.PREV) {
+      return (
+        <button key={key} className={cn(className, "bg-default-200/50 min-w-8 w-8 h-8")} onClick={onPrevious}>
+          <IoIosArrowBack />
+        </button>
+      );
+    }
+
+    if (value === PaginationItemType.DOTS) {
+      return <button key={key} className={className}>...</button>;
+    }
+
+    // cursor is the default item
+    return (
+      <button
+        key={key}
+        ref={ref}
+        className={cn(
+          className,
+          isActive &&
+          "text-white bg-gradient-to-br from-gray-400 to-gray-700 font-bold",
+        )}
+        onClick={() => setPage(value)}
+      >
+        {value}
+      </button>
+    );
   };
 
   return (
-    <div className="flex justify-center mt-4">
-      <button
-        className="mx-1 p-1 px-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        <FaArrowAltCircleLeft
-          className={`text-2xl ${currentPage !== 1 && "text-[#4da435]"}`}
-        />
-      </button>
-      {renderPageLinks()}
-      <button
-        className="mx-1 p-1 px-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        <FaArrowAltCircleRight
-          className={`text-2xl ${currentPage !== totalPages && "text-[#4da435]"}`}
-        />
-      </button>
-    </div>
+    <Pagination
+      disableCursorAnimation
+      showControls
+      total={totalPages}
+      initialPage={initialPage}
+      className="gap-2 text-white"
+      radius="full"
+      renderItem={renderItem}
+      onChange={handlePaginationChange}
+      variant="flat"
+    />
   );
-};
+}

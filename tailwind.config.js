@@ -24,7 +24,8 @@ module.exports = {
       colors: {
         grayRoot: '#333333',
         blackRoot: '#252525',
-        milk: '#FDFFF5'
+        milk: '#FDFFF5',
+        lightGray: '#4d4d4d',
       },
       backgroundImage: {},
     },
