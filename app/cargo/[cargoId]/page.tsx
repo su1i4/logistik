@@ -1,7 +1,6 @@
 "use client";
 
 import Map, {
-  Marker,
   NavigationControl,
   GeolocateControl,
   Source,
@@ -36,7 +35,7 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
     if (data) {
       const accessToken =
         "pk.eyJ1IjoiYTZ1eGE0IiwiYSI6ImNscGhibWM5aTA1c28ycm1oNGdjYTYybnQifQ.JFaTlYbkSMf395KgTMMkSQ";
-      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${data.fromMap.longitude},${data.fromMap.latitude};${data.toMap.longitude},${data.toMap.latitude}?geometries=geojson&access_token=${accessToken}`;
+      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${data.fromMap.longitude},${data.fromMap.lattitude};${data.toMap.longitude},${data.toMap.lattitude}?geometries=geojson&access_token=${accessToken}`;
 
       fetch(apiUrl)
         .then((response) => response.json())
@@ -71,12 +70,15 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
           </p>
         </div>
         <div className="flex gap-3 xs:text-sm text-white">
-          <FaCalendarDay/>
+          <FaCalendarDay />
           {FormatDateToRussian(data?.startDate)}
           <IoArrowUpSharp className="text-xl text-green-700 rotate-90" />
           {FormatDateToRussian(data?.endDate)}
         </div>
-        <div className="text-white flex items-start gap-2"><BsChatRightDotsFill className="text-milk mt-[6px]" />{data?.ByComment}</div>
+        <div className="text-white flex items-start gap-2">
+          <BsChatRightDotsFill className="text-milk mt-[6px]" />
+          {data?.ByComment}
+        </div>
         <div className="flex flex-col w-full  pt-4 gap-4 lg:flex-row">
           <a href="tel:">
             <Button
