@@ -53,8 +53,6 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
     }
   }, [data]);
 
-  console.log(distance, "this is distance");
-
   return (
     <main className="w-full h-full min-h-[86vh] bg-blackRoot p-8 flex justify-between lg:flex-col lg:items-start lg:justify-start lg:h-fit gap-10 lg:gap-0 xs:p-4">
       <div className="w-full pr-10 h-fit flex flex-col gap-5 xs:gap-3 items-start font-mono lg:pr-0">

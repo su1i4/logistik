@@ -15,6 +15,8 @@ import {
   useGetCargoQuery,
   useGetCarsQuery,
   useGetPointsQuery,
+  useDeleteCargoMutation,
+  usePutCargoMutation,
 } from "@/services/cargo.service";
 import { FormatDateToRussian, TYPES_CARS } from "@/utils/helpers/general";
 import { Switch } from "@/components/SwitchPlace";
@@ -34,8 +36,23 @@ export default function AdminPage() {
   const [page, setPage] = useState<number>(1);
 
   const [cargoData, setCargoData] = useState({
-    startPeriod: "",
-    endPeriod: "",
+    startDate: "",
+    endDate: "",
+    carId: [],
+    ByFrom: 0,
+    ByTo: 0,
+    productName: "",
+    BySize: "",
+    ByWeight: "",
+    ByComment: "",
+    fromMap: {
+      lattitude: "",
+      longitude: "",
+    },
+    toMap: {
+      lattitude: "",
+      longitude: "",
+    },
   });
   const [filter, setFilter] = useState<any>({
     ByFrom: "",
@@ -57,6 +74,12 @@ export default function AdminPage() {
 
   const { data: Points = [] } = useGetPointsQuery();
   const { data: Cars = [] } = useGetCarsQuery();
+
+  const [deleteCargo] = useDeleteCargoMutation();
+
+  const handleDelete = async (cargoId: any) => {
+    await deleteCargo(cargoId);
+  };
 
   const changeValue = (value: any, name: string) => {
     setFilter((prevFilter: any) => ({
@@ -149,7 +172,13 @@ export default function AdminPage() {
               </Button>
             </Tooltip>
             <Tooltip content="Удалить">
-              <Button size="sm" isIconOnly color="danger" aria-label="Like">
+              <Button
+                onClick={() => handleDelete(data.cargoId)}
+                size="sm"
+                isIconOnly
+                color="danger"
+                aria-label="Like"
+              >
                 <DeleteIcon width={15} height={15} />
               </Button>
             </Tooltip>
@@ -166,19 +195,11 @@ export default function AdminPage() {
 
   return (
     <>
-      <CreateModal
-        onOpenChange={onOpenChange}
-        isOpen={isOpen}
-        filter={cargoData}
-        setFilter={setCargoData}
-        carId={carId}
-        setCarId={setCarId}
-      />
-      <div className="m-auto w-[80%] h-screen mt-10">
+      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-32">
         <div className="flex justify-between">
           <div className="w-fit flex items-end gap-2">
             <Select
-              className="w-[300px]"
+              className="w-[300px] bg-gray-100"
               labelPlacement="outside"
               placeholder="Например, Бишкек"
               radius="none"
@@ -186,23 +207,25 @@ export default function AdminPage() {
                 if (filter.ByFrom) {
                   return (
                     <div>
-                      <span className="text-white">{filter.ByFrom.label}</span>
+                      <span className="">{filter.ByFrom.label}</span>
                     </div>
                   );
                 }
                 return (
                   <div>
-                    <span className="text-white">Например, Бишкек</span>
+                    <span className="">Например, Бишкек</span>
                   </div>
                 );
               }}
             >
-              <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
-                {"--------"}
-              </SelectItem>
               {Points.map((item: any, index: number) => (
                 <SelectItem
-                  onClick={() => changeValue(item, "ByFrom")}
+                  onClick={() =>
+                    changeValue(
+                      item.value === filter.ByFrom.value ? "" : item,
+                      "ByFrom"
+                    )
+                  }
                   key={index}
                 >
                   {item.label}
@@ -212,30 +235,32 @@ export default function AdminPage() {
             <Switch setFilter={setFilter} filter={filter} />
             <Select
               labelPlacement="outside"
-              className="w-[300px]"
+              className="w-[300px] bg-gray-100"
               placeholder="Например, Каракол"
               radius="none"
               renderValue={() => {
                 if (filter.ByTo) {
                   return (
                     <div>
-                      <span className="text-white">{filter.ByTo.label}</span>
+                      <span className="">{filter.ByTo.label}</span>
                     </div>
                   );
                 }
                 return (
                   <div>
-                    <span className="text-white">Например, Каракол</span>
+                    <span className="">Например, Каракол</span>
                   </div>
                 );
               }}
             >
-              <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
-                {"--------"}
-              </SelectItem>
               {Points.map((item: any, index: number) => (
                 <SelectItem
-                  onClick={() => changeValue(item, "ByTo")}
+                  onClick={() =>
+                    changeValue(
+                      item.value === filter.ByTo.value ? "" : item,
+                      "ByTo"
+                    )
+                  }
                   key={index}
                 >
                   {item.label}
@@ -245,7 +270,7 @@ export default function AdminPage() {
           </div>
           <Select
             labelPlacement="outside"
-            className="w-[250px]"
+            className="w-[250px] bg-gray-100"
             placeholder="Например, Крытый"
             radius="none"
             selectionMode="multiple"
@@ -255,7 +280,7 @@ export default function AdminPage() {
                 return (
                   <div>
                     {carId.map((item: any, index: number) => (
-                      <span key={index} className="text-white mr-1">
+                      <span key={index} className="mr-1">
                         {item.label},
                       </span>
                     ))}
@@ -285,7 +310,7 @@ export default function AdminPage() {
           </Select>
           <Button
             onClick={onOpenChange}
-            className="bg-[#27272a]"
+            className="bg-[#27272a] text-white"
             endContent={<PlusIcon />}
             size="md"
           >
@@ -303,6 +328,14 @@ export default function AdminPage() {
           />
         </div>
       </div>
+      <CreateModal
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+        filter={cargoData}
+        setFilter={setCargoData}
+        carId={carId}
+        setCarId={setCarId}
+      />
     </>
   );
 }

@@ -54,7 +54,7 @@ export const Header = () => {
       <Navbar
         onMenuOpenChange={setIsMenuOpen}
         maxWidth="full"
-        className="max-w-[1540px] sticky top-0 w-full h-[60px] bg-grayRoot flex justify-between items-center px-8 md:px-6 xs:px-0 z-[99999]"
+        className="max-w-[1540px] sticky top-0 w-full h-[60px] bg-grayRoot flex justify-between items-center px-8 md:px-6 xs:px-0 z-[99998]"
       >
         <Link href="/">
           <div className="flex items-center gap-1 cursor-pointer xs:ml-[-25px]">

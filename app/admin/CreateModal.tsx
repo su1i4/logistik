@@ -1,6 +1,10 @@
 "use client";
 
-import { useGetCarsQuery, useGetPointsQuery } from "@/services/cargo.service";
+import {
+  useGetCarsQuery,
+  useGetPointsQuery,
+  usePostCargoMutation,
+} from "@/services/cargo.service";
 import { TYPES_CARS } from "@/utils/helpers/general";
 import {
   Button,
@@ -21,6 +25,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { Marker, Popup, ViewStateChangeEvent } from "react-map-gl";
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import { DatePicker } from "@/components/DatePicker";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYTZ1eGE0IiwiYSI6ImNscGhibWM5aTA1c28ycm1oNGdjYTYybnQifQ.JFaTlYbkSMf395KgTMMkSQ";
@@ -57,6 +62,8 @@ export const CreateModal: React.FC<CreateModalProps> = ({
 }) => {
   const { data: Cars = [] } = useGetCarsQuery();
   const { data: Points = [] } = useGetPointsQuery();
+
+  const [postCargo] = usePostCargoMutation();
 
   const changeValue = (value: any, name: string) => {
     setFilter((prevFilter: any) => ({
@@ -101,15 +108,15 @@ export const CreateModal: React.FC<CreateModalProps> = ({
       } else if (!pointB) {
         setPointB({ longitude, latitude });
       } else {
-        setPointA({ longitude, latitude });
-        setPointB(null);
+        setPointA((prevState) => ({ longitude, latitude }));
+        setPointB((prevState) => null);
         setShowDirections(false);
       }
     },
     [pointA, pointB]
   );
 
-  const mapRef = useRef<MapboxMap | null>(null);
+  const mapRef = useRef<MapboxMap | null | any>(null);
 
   useEffect(() => {
     if (mapRef.current && pointA && pointB) {
@@ -126,24 +133,59 @@ export const CreateModal: React.FC<CreateModalProps> = ({
     }
   }, [pointA, pointB]);
 
+  const handlePost = async () => {
+    try {
+      await postCargo({});
+    } catch (error) {}
+  };
+
+  const combinedArray = Object.values(Cars).flatMap((array) => array);
+
+  console.log(pointA, pointB, "this is Points");
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <ModalContent className="w-[400px] max-w-[400px] overflow-scroll max-h-[500px] mb-[200px]">
+    <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <ModalContent className="w-[400px] max-w-[400px] overflow-scroll max-h-[500px] z-[99999]">
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
               Добавить груз
             </ModalHeader>
             <ModalBody>
-              <DateRangePicker label="Дата поставки" />
+              <div className="w-full flex items-center gap-[1px]">
+                <DatePicker
+                  value={filter.startDate}
+                  changeValue={changeValue}
+                  name="startDate"
+                  show={true}
+                  placeholder="От"
+                />
+                <DatePicker
+                  value={filter.endDate}
+                  changeValue={changeValue}
+                  placeholder="До"
+                  name="endDate"
+                  show={false}
+                />
+              </div>
               <div className="flex items-center gap-2">
                 <Select
                   className="w-full"
                   labelPlacement="outside"
                   placeholder="Откуда"
                 >
-                  {Points.map((item: Point, index: number) => (
-                    <SelectItem key={index}>{item.label}</SelectItem>
+                  {Points.map((item: any, index: number) => (
+                    <SelectItem
+                      onClick={() =>
+                        changeValue(
+                          item.value === filter.ByFrom.value ? "" : item,
+                          "ByFrom"
+                        )
+                      }
+                      key={index}
+                    >
+                      {item.label}
+                    </SelectItem>
                   ))}
                 </Select>
                 <Select
@@ -151,15 +193,40 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   labelPlacement="outside"
                   placeholder="Куда"
                 >
-                  {Points.map((item: Point, index: number) => (
-                    <SelectItem key={index}>{item.label}</SelectItem>
+                  {Points.map((item: any, index: number) => (
+                    <SelectItem
+                      onClick={() =>
+                        changeValue(
+                          item.value === filter.ByTo.value ? "" : item,
+                          "ByTo"
+                        )
+                      }
+                      key={index}
+                    >
+                      {item.label}
+                    </SelectItem>
                   ))}
                 </Select>
               </div>
-              <Input type="text" placeholder="Название груза" />
+              <Input
+                value={filter.productName}
+                onChange={(e) => changeValue(e.target.value, "productName")}
+                type="text"
+                placeholder="Название груза"
+              />
               <div className="flex items-center justify-between gap-5">
-                <Input type="number" placeholder="Вес,т" />
-                <Input type="number" placeholder="Объём,м³" />
+                <Input
+                  value={filter.ByWeight}
+                  onChange={(e) => changeValue(e.target.value, "ByWeight")}
+                  type="number"
+                  placeholder="Вес,т"
+                />
+                <Input
+                  value={filter.BySize}
+                  onChange={(e) => changeValue(e.target.value, "BySize")}
+                  type="number"
+                  placeholder="Объём,м³"
+                />
               </div>
               <Select
                 placeholder="Тип кузова"
@@ -168,20 +235,20 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                 renderValue={() => {
                   return (
                     <div>
-                      {carId.map((id: number) => (
-                        <span key={id} className="text-white mr-1">
-                          {Cars.find((car: Car) => car.label === id)?.label},
+                      {combinedArray.map((id: any) => (
+                        <span key={id} className=" mr-1">
+                          {id.label}
                         </span>
                       ))}
                     </div>
                   );
                 }}
               >
-                {Object.entries(Cars).map(([key, items]: [string, Car[]]) => (
+                {Object.entries(Cars).map(([key, items]: [any, any]) => (
                   <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
-                    {items.map((item: Car, itemIndex: number) => (
+                    {items.map((item: any, itemIndex: number) => (
                       <SelectItem
-                        onClick={() => handleSelectChange(item.label)}
+                        onClick={() => handleSelectChange(item.value)}
                         key={`${key}-${itemIndex}`}
                       >
                         {item.label}
@@ -190,7 +257,11 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   </SelectSection>
                 ))}
               </Select>
-              <Textarea placeholder="Коментарии" />
+              <Textarea
+                value={filter.ByComment}
+                onChange={(e) => changeValue(e.target.value, "ByComment")}
+                placeholder="Коментарии"
+              />
               <div className="max-w-[400px] max-h-[300px] h-[300px] rounded-md overflow-hidden">
                 <Map
                   ref={mapRef}
@@ -257,7 +328,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               <Button color="danger" variant="light" onPress={onClose}>
                 Закрыть
               </Button>
-              <Button color="primary" onPress={onClose}>
+              <Button color="primary" onPress={handlePost}>
                 Сохранить
               </Button>
             </ModalFooter>

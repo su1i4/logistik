@@ -34,9 +34,6 @@ export const DatePicker = ({
               : `${placeholder}`
           }
           onChange={(e) => changeValue(e.target.value, name)}
-          //   endContent={
-          //     <FaCalendarAlt className="text-gray-500 text-sm min-w-3 cursor-pointer" />
-          //   }
           isClearable
           onClear={() => changeValue(null, name)}
         />
