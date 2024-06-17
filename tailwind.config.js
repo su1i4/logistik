@@ -22,14 +22,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        grayRoot: '#333333',
-        blackRoot: '#252525',
-        milk: '#FDFFF5',
-        lightGray: '#4d4d4d',
+        grayRoot: "#333333",
+        blackRoot: "#252525",
+        milk: "#FDFFF5",
+        lightGray: "#4d4d4d",
       },
       backgroundImage: {},
     },
   },
-  darkMode: "class",
   plugins: [nextui()],
 };
