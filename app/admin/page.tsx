@@ -8,6 +8,7 @@ import {
   SelectItem,
   SelectSection,
   Tooltip,
+  useDisclosure,
 } from "@nextui-org/react";
 import { PlusIcon } from "@/public/icons/PlusIcon";
 import {
@@ -21,10 +22,17 @@ import Table from "@/components/Table";
 import { DeleteIcon } from "@/public/icons/DeleteIcon";
 import { EyeIcon } from "@/public/icons/EyeIcon";
 import { EditIcon } from "@/public/icons/EditIcon";
+import { CreateModal } from "./CreateModal";
 
 export default function AdminPage() {
+  const { onOpenChange, isOpen } = useDisclosure();
+
   const [page, setPage] = useState<number>(1);
 
+  const [cargoData, setCargoData] = useState({
+    startPeriod: "",
+    endPeriod: "",
+  });
   const [filter, setFilter] = useState<any>({
     ByFrom: "",
     ByTo: "",
@@ -142,126 +150,144 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="m-auto w-[80%] h-screen mt-10">
-      <div className="flex justify-between">
-        <div className="w-fit flex items-end gap-2">
-          <Select
-            className="w-[300px]"
-            labelPlacement="outside"
-            placeholder="Например, Бишкек"
-            radius="none"
-            renderValue={() => {
-              if (filter.ByFrom) {
+    <>
+      <CreateModal
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+        filter={cargoData}
+        setFilter={setCargoData}
+        carId={carId}
+        setCarId={setCarId}
+      />
+      <div className="m-auto w-[80%] h-screen mt-10">
+        <div className="flex justify-between">
+          <div className="w-fit flex items-end gap-2">
+            <Select
+              className="w-[300px]"
+              labelPlacement="outside"
+              placeholder="Например, Бишкек"
+              radius="none"
+              renderValue={() => {
+                if (filter.ByFrom) {
+                  return (
+                    <div>
+                      <span className="text-white">{filter.ByFrom.label}</span>
+                    </div>
+                  );
+                }
                 return (
                   <div>
-                    <span className="text-white">{filter.ByFrom.label}</span>
+                    <span className="text-white">Например, Бишкек</span>
                   </div>
                 );
-              }
-              return (
-                <div>
-                  <span className="text-white">Например, Бишкек</span>
-                </div>
-              );
-            }}
-          >
-            <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
-              {"--------"}
-            </SelectItem>
-            {Points.map((item: any, index: number) => (
-              <SelectItem
-                onClick={() => changeValue(item, "ByFrom")}
-                key={index}
-              >
-                {item.label}
+              }}
+            >
+              <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
+                {"--------"}
               </SelectItem>
-            ))}
-          </Select>
-          <Switch setFilter={setFilter} filter={filter} />
-          <Select
-            labelPlacement="outside"
-            className="w-[300px]"
-            placeholder="Например, Каракол"
-            radius="none"
-            renderValue={() => {
-              if (filter.ByTo) {
-                return (
-                  <div>
-                    <span className="text-white">{filter.ByTo.label}</span>
-                  </div>
-                );
-              }
-              return (
-                <div>
-                  <span className="text-white">Например, Каракол</span>
-                </div>
-              );
-            }}
-          >
-            <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
-              {"--------"}
-            </SelectItem>
-            {Points.map((item: any, index: number) => (
-              <SelectItem onClick={() => changeValue(item, "ByTo")} key={index}>
-                {item.label}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <Select
-          labelPlacement="outside"
-          className="w-[250px]"
-          placeholder="Например, Крытый"
-          radius="none"
-          selectionMode="multiple"
-          fullWidth={true}
-          renderValue={() => {
-            if (carId.length) {
-              return (
-                <div>
-                  {carId.map((item: any, index: number) => (
-                    <span key={index} className="text-white mr-1">
-                      {item.label},
-                    </span>
-                  ))}
-                </div>
-              );
-            } else {
-              return (
-                <div>
-                  <span className="text-grayRoot/70">Например, Крытый</span>
-                </div>
-              );
-            }
-          }}
-        >
-          {Object.entries(Cars).map(([key, items]: any) => (
-            <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
-              {items.map((item: any, itemIndex: any) => (
+              {Points.map((item: any, index: number) => (
                 <SelectItem
-                  onClick={() => handleSelectChange(item)}
-                  key={`${key}-${itemIndex}`}
+                  onClick={() => changeValue(item, "ByFrom")}
+                  key={index}
                 >
                   {item.label}
                 </SelectItem>
               ))}
-            </SelectSection>
-          ))}
-        </Select>
-        <Button className="bg-[#27272a]" endContent={<PlusIcon />} size="md">
-          Добавить груз
-        </Button>
+            </Select>
+            <Switch setFilter={setFilter} filter={filter} />
+            <Select
+              labelPlacement="outside"
+              className="w-[300px]"
+              placeholder="Например, Каракол"
+              radius="none"
+              renderValue={() => {
+                if (filter.ByTo) {
+                  return (
+                    <div>
+                      <span className="text-white">{filter.ByTo.label}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <div>
+                    <span className="text-white">Например, Каракол</span>
+                  </div>
+                );
+              }}
+            >
+              <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
+                {"--------"}
+              </SelectItem>
+              {Points.map((item: any, index: number) => (
+                <SelectItem
+                  onClick={() => changeValue(item, "ByTo")}
+                  key={index}
+                >
+                  {item.label}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
+          <Select
+            labelPlacement="outside"
+            className="w-[250px]"
+            placeholder="Например, Крытый"
+            radius="none"
+            selectionMode="multiple"
+            fullWidth={true}
+            renderValue={() => {
+              if (carId.length) {
+                return (
+                  <div>
+                    {carId.map((item: any, index: number) => (
+                      <span key={index} className="text-white mr-1">
+                        {item.label},
+                      </span>
+                    ))}
+                  </div>
+                );
+              } else {
+                return (
+                  <div>
+                    <span className="text-grayRoot/70">Например, Крытый</span>
+                  </div>
+                );
+              }
+            }}
+          >
+            {Object.entries(Cars).map(([key, items]: any) => (
+              <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
+                {items.map((item: any, itemIndex: any) => (
+                  <SelectItem
+                    onClick={() => handleSelectChange(item)}
+                    key={`${key}-${itemIndex}`}
+                  >
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectSection>
+            ))}
+          </Select>
+          <Button
+            onClick={onOpenChange}
+            className="bg-[#27272a]"
+            endContent={<PlusIcon />}
+            size="md"
+          >
+            Добавить груз
+          </Button>
+        </div>
+        <div>
+          <Table
+            columns={COLUMNS_CUSTOMER}
+            data={data.content}
+            isLoading={isLoading}
+            onPageChange={(e) => setPage(+e)}
+            currentPage={page}
+            totalPages={data.totalPages}
+          />
+        </div>
       </div>
-      <div>
-        <Table
-          columns={COLUMNS_CUSTOMER}
-          data={data.content}
-          isLoading={isLoading}
-          onPageChange={(e) => setPage(+e)}
-          currentPage={page}
-          totalPages={data.totalPages}
-        />
-      </div>
-    </div>
+    </>
   );
 }
