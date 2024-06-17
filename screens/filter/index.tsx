@@ -44,12 +44,14 @@ export const Filter = () => {
     {
       page: page,
       size: size,
-      params: {...filter, Byfrom: filter.ByFrom.value, ByTo: filter.ByTo.value},
+      params: {...filter, ByFrom: filter.ByFrom.value, ByTo: filter.ByTo.value},
       carId: carId.map((item: any) => item.value ),
     }
   );
   const { data: Points = [], isLoading: PointLoading } = useGetPointsQuery();
   const { data: Cars = [], isLoading: CarsLoading } = useGetCarsQuery();
+
+  console.log(filter, 'this is console.log')
 
   return (
     <section className="w-full min-h-screen bg-blackRoot relative z-50 border-b-[1px] border-solid border-gray-400">
