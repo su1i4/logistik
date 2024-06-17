@@ -8,7 +8,7 @@ import { useState } from "react";
 import { FaWeightHanging } from "react-icons/fa6";
 import { FaBoxOpen, FaCalendarDay, FaRoad } from "react-icons/fa";
 import { BsChatRightDotsFill } from "react-icons/bs";
-import CustomPagination from "../Pagination";
+import CustomPagination from "../Pagination/index";
 
 export const CargoList = ({
   data,

@@ -127,7 +127,6 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
               />
             </Source>
           )}
-
           <div className="absolute top-6 right-6">
             <NavigationControl />
             <GeolocateControl />

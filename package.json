@@ -20,7 +20,6 @@
 		"@nextui-org/switch": "^2.0.29",
 		"@nextui-org/system": "2.2.0",
 		"@nextui-org/theme": "2.2.4",
-		"@pbe/react-yandex-maps": "^1.2.5",
 		"@react-aria/ssr": "^3.9.2",
 		"@react-aria/visually-hidden": "^3.8.10",
 		"@reduxjs/toolkit": "^2.2.5",

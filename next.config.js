@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     middleware: true,
+    optimizePackageImports: ["@nextui-org/react"],
   },
 };
 
