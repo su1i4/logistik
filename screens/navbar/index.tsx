@@ -17,12 +17,35 @@ export const Header = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const { push } = useRouter();
-  const pathname = usePathname();
+  const router = useRouter();
+  const token = Cookies.get("user_token");
+  const pathName = usePathname();
 
   const handleLogout = () => {
     Cookies.remove("user_token");
-    push("/");
+    router.push("/");
+  };
+
+  const getButtonContent = () => {
+    if (token !== "AUTHORIZED") {
+      return <p className="text-white">Добавить груз</p>;
+    }
+
+    if (token === "AUTHORIZED" && pathName === "/admin") {
+      return <p className="text-white">Выйти</p>;
+    }
+
+    return <p className="text-white">К админу</p>;
+  };
+
+  const handleButtonClick = () => {
+    if (token !== "AUTHORIZED") {
+      onOpen();
+    } else if (token === "AUTHORIZED" && pathName === "/admin") {
+      handleLogout();
+    } else {
+      router.push("/admin");
+    }
   };
 
   return (
@@ -52,26 +75,19 @@ export const Header = () => {
               <p className="text-white">Контакты</p>
             </Button>
           </Link>
-          {pathname === "/admin" ? (
-            <Button
-              onPress={handleLogout}
-              className="font-mono"
-              radius="full"
-              variant="bordered"
-            >
-              <p className="text-white">Выйти</p>
-            </Button>
-          ) : (
-            <Button
-              onPress={onOpen}
-              className="font-mono"
-              radius="full"
-              variant="bordered"
-              startContent={<FaBoxOpen className="text-white text-lg" />}
-            >
-              <p className="text-white">Добавить груз</p>
-            </Button>
-          )}
+          <Button
+            onPress={handleButtonClick}
+            className="font-mono"
+            radius="full"
+            variant="bordered"
+            startContent={
+              token !== "AUTHORIZED" ? (
+                <FaBoxOpen className="text-white text-lg" />
+              ) : null
+            }
+          >
+            {getButtonContent()}
+          </Button>
         </div>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -82,29 +98,19 @@ export const Header = () => {
             isOpen ? "z-10" : "z-[99999]"
           }`}
         >
-          {pathname === "/admin" ? (
-            <Button
-              onPress={handleLogout}
-              className="font-mono"
-              radius="full"
-              variant="bordered"
-            >
-              <p className="text-white">Выйти</p>
-            </Button>
-          ) : (
-            <Button
-              onPress={() => {
-                setIsMenuOpen(false);
-                onOpen();
-              }}
-              className="font-mono border-[white]"
-              radius="full"
-              variant="bordered"
-              startContent={<FaBoxOpen className="text-white text-lg" />}
-            >
-              <p className="text-white">Добавить груз</p>
-            </Button>
-          )}
+          <Button
+            onPress={handleButtonClick}
+            className="font-mono"
+            radius="full"
+            variant="bordered"
+            startContent={
+              token !== "AUTHORIZED" ? (
+                <FaBoxOpen className="text-white text-lg" />
+              ) : null
+            }
+          >
+            {getButtonContent()}
+          </Button>
           <Link className="w-full" href="/contacts">
             <Button
               className="font-mono border-white"

@@ -21,8 +21,12 @@ import Table from "@/components/Table";
 import { DeleteIcon } from "@/public/icons/DeleteIcon";
 import { EyeIcon } from "@/public/icons/EyeIcon";
 import { EditIcon } from "@/public/icons/EditIcon";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
+  const router = useRouter();
+
   const [page, setPage] = useState<number>(1);
 
   const [filter, setFilter] = useState<any>({
@@ -61,6 +65,11 @@ export default function AdminPage() {
       ids.push(value);
     }
     setCarId(ids);
+  };
+
+  const handleNavigate = (id: any) => {
+    Cookies.set("user_token", "AUTHORIZED");
+    router.push(`/cargo/${id}`);
   };
 
   const COLUMNS_CUSTOMER = [
@@ -121,7 +130,13 @@ export default function AdminPage() {
         return (
           <div className="flex gap-1">
             <Tooltip content="Подробнее">
-              <Button size="sm" isIconOnly color="warning" aria-label="Like">
+              <Button
+                onClick={() => handleNavigate(data.cargoId)}
+                size="sm"
+                isIconOnly
+                color="warning"
+                aria-label="Like"
+              >
                 <EyeIcon width={15} height={15} />
               </Button>
             </Tooltip>
@@ -142,7 +157,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="m-auto w-[80%] h-screen mt-10">
+    <div className="m-auto w-[80%] h-[100vh] mt-10 mb-20">
       <div className="flex justify-between">
         <div className="w-fit flex items-end gap-2">
           <Select
@@ -201,7 +216,8 @@ export default function AdminPage() {
             }}
           >
             {Points.map((item: any, index: number) => (
-              <SelectItem onClick={() =>
+              <SelectItem
+                onClick={() =>
                   changeValue(
                     item.value === filter.ByTo.value ? "" : item,
                     "ByTo"
@@ -254,7 +270,11 @@ export default function AdminPage() {
             </SelectSection>
           ))}
         </Select>
-        <Button className="bg-[#27272a]" endContent={<PlusIcon />} size="md">
+        <Button
+          className="bg-[#27272a] text-white"
+          endContent={<PlusIcon />}
+          size="md"
+        >
           Добавить груз
         </Button>
       </div>
