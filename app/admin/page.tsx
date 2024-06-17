@@ -146,7 +146,7 @@ export default function AdminPage() {
       <div className="flex justify-between">
         <div className="w-fit flex items-end gap-2">
           <Select
-            className="w-[300px]"
+            className="w-[300px] bg-gray-100"
             labelPlacement="outside"
             placeholder="Например, Бишкек"
             radius="none"
@@ -165,12 +165,14 @@ export default function AdminPage() {
               );
             }}
           >
-            <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
-              {"--------"}
-            </SelectItem>
             {Points.map((item: any, index: number) => (
               <SelectItem
-                onClick={() => changeValue(item, "ByFrom")}
+                onClick={() =>
+                  changeValue(
+                    item.value === filter.ByFrom.value ? "" : item,
+                    "ByFrom"
+                  )
+                }
                 key={index}
               >
                 {item.label}
@@ -180,7 +182,7 @@ export default function AdminPage() {
           <Switch setFilter={setFilter} filter={filter} />
           <Select
             labelPlacement="outside"
-            className="w-[300px]"
+            className="w-[300px] bg-gray-100"
             placeholder="Например, Каракол"
             radius="none"
             renderValue={() => {
@@ -198,11 +200,15 @@ export default function AdminPage() {
               );
             }}
           >
-            <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
-              {"--------"}
-            </SelectItem>
             {Points.map((item: any, index: number) => (
-              <SelectItem onClick={() => changeValue(item, "ByTo")} key={index}>
+              <SelectItem onClick={() =>
+                  changeValue(
+                    item.value === filter.ByTo.value ? "" : item,
+                    "ByTo"
+                  )
+                }
+                key={index}
+              >
                 {item.label}
               </SelectItem>
             ))}
@@ -210,7 +216,7 @@ export default function AdminPage() {
         </div>
         <Select
           labelPlacement="outside"
-          className="w-[250px]"
+          className="w-[250px] bg-gray-100"
           placeholder="Например, Крытый"
           radius="none"
           selectionMode="multiple"

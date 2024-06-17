@@ -7,7 +7,7 @@ import {
   PopoverContent,
 } from "@nextui-org/react";
 import { MiniCalendar } from "../mini-calendar/index";
-import { FormatDateToRussian } from "@/utils/helpers/general";
+import { FormatDateToRussian, stylesInput } from "@/utils/helpers/general";
 
 export const DatePicker = ({
   value,
@@ -27,14 +27,7 @@ export const DatePicker = ({
           radius="none"
           placeholder=" "
           labelPlacement="outside"
-          classNames={{
-            label: "text-black/50 dark:text-white/90",
-            input: [
-              "bg-transparent",
-              "text-black/40 dark:text-white/90",
-              "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-            ],
-          }}
+          classNames={stylesInput}
           value={
             value
               ? `${placeholder} ${FormatDateToRussian(value)}`

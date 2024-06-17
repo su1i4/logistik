@@ -10,7 +10,6 @@ import Map, {
   Layer,
   Marker,
 } from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function Contacts() {
   return (
@@ -23,7 +22,7 @@ export default function Contacts() {
           <br />
           Звонить можно круглосуточно
         </p>
-        <p className="w-full border-t-[1px] border-solid flex items-center text-[20px] border-gray-400">
+        <p className="w-full border-t-[1px] border-solid flex items-center text-[20px] border-gray-400 mt-2">
           <span className="font-[700]">Адрес: </span> Исы Ахунбаева, 131 адрес
         </p>
         <div className="w-full border-t-[1px] border-solid border-gray-400 flex flex-col justify-around gap-5 h-[150px] border-b">

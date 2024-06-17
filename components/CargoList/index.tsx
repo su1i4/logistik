@@ -1,6 +1,7 @@
 "use client";
 
 import { CargoCard } from "../Cards/CargoCard";
+import CardSkeleton from "../Cards/CargoCardSkeleton";
 import { CargoCardType } from "@/types";
 import { PAGE_SIZES } from "@/utils/helpers/general";
 import { Select, SelectItem } from "@nextui-org/react";
@@ -17,6 +18,7 @@ export const CargoList = ({
   totalPages,
   setPage,
   setSize,
+  isLoading,
 }: any) => {
   const handlePaginationChange = (event: any) => {
     setPage(event);
@@ -31,10 +33,12 @@ export const CargoList = ({
           Найдено: {data?.length} грузов
         </p>
         <Select
-          className="max-w-32 mb-2 md:mb-0"
+          className="max-w-32 mb-2 md:mb-0 bg-gray-100"
           label={<span className="text-white">Кол - страниц</span>}
+          radius="md"
           labelPlacement="outside"
           placeholder="Страница"
+          style={{ backgroundColor: "white", color: "black" }}
           renderValue={() => {
             return <span>{size}</span>;
           }}
@@ -69,15 +73,19 @@ export const CargoList = ({
         </div>
       </div>
       <div className="w-full h-fit grid grid-cols-1 gap-3 md:mt-[6px]">
-        {data?.map((item: CargoCardType, index: number) => (
-          <CargoCard
-            key={index}
-            props={item}
-            index={index}
-            showIndex={showIndex}
-            setShowIndex={setShowIndex}
-          />
-        ))}
+        {!isLoading
+          ? data?.map((item: CargoCardType, index: number) => (
+              <CargoCard
+                key={index}
+                props={item}
+                index={index}
+                showIndex={showIndex}
+                setShowIndex={setShowIndex}
+              />
+            ))
+          : Array.from({ length: 4 }).map((_: any, index: number) => (
+              <CardSkeleton key={index} />
+          ))}
         {totalPages > 1 && (
           <div className="w-full flex justify-center">
             <CustomPagination
