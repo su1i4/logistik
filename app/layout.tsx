@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import clsx from "clsx";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { Providers } from "@/providers/providers";
 

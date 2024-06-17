@@ -23,9 +23,13 @@ import { DeleteIcon } from "@/public/icons/DeleteIcon";
 import { EyeIcon } from "@/public/icons/EyeIcon";
 import { EditIcon } from "@/public/icons/EditIcon";
 import { CreateModal } from "./CreateModal";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
   const { onOpenChange, isOpen } = useDisclosure();
+
+  const { push } = useRouter();
 
   const [page, setPage] = useState<number>(1);
 
@@ -69,6 +73,11 @@ export default function AdminPage() {
       ids.push(value);
     }
     setCarId(ids);
+  };
+
+  const handleNavigate = (id: any) => {
+    Cookies.set("user_token", "AUTHORIZED");
+    push(`/cargo/${id}`);
   };
 
   const COLUMNS_CUSTOMER = [
@@ -129,7 +138,13 @@ export default function AdminPage() {
         return (
           <div className="flex gap-1">
             <Tooltip content="Подробнее">
-              <Button size="sm" isIconOnly color="warning" aria-label="Like">
+              <Button
+                onClick={() => handleNavigate(data.cargoId)}
+                size="sm"
+                isIconOnly
+                color="warning"
+                aria-label="Like"
+              >
                 <EyeIcon width={15} height={15} />
               </Button>
             </Tooltip>

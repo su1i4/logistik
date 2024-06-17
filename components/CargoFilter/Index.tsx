@@ -6,7 +6,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Switch } from "../SwitchPlace";
-import { TYPES_CARS } from "@/utils/helpers/general";
+import { TYPES_CARS, stylesInput } from "@/utils/helpers/general";
 import { DatePicker } from "../DatePicker";
 
 export const CargoFilter = ({
@@ -40,7 +40,7 @@ export const CargoFilter = ({
       <div className="flex justify-between items-center gap-4 md:flex-col md:w-full">
         <div className="w-full flex items-end gap-2 md:flex-col md:items-center md:gap-0">
           <Select
-            className="w-full"
+            className="w-full bg-gray-100"
             label={<span className="text-white">Откуда</span>}
             labelPlacement="outside"
             placeholder="Например, Бишкек"
@@ -60,12 +60,14 @@ export const CargoFilter = ({
               );
             }}
           >
-            <SelectItem key={10} onClick={() => changeValue("", "ByFrom")}>
-              {"--------"}
-            </SelectItem>
             {Points.map((item: any, index: number) => (
               <SelectItem
-                onClick={() => changeValue(item, "ByFrom")}
+                onClick={() =>
+                  changeValue(
+                    item.value === filter.ByFrom.value ? "" : item,
+                    "ByFrom"
+                  )
+                }
                 key={index}
               >
                 {item.label}
@@ -76,7 +78,7 @@ export const CargoFilter = ({
           <div className="w-full md:mt-[-20px]">
             <Select
               labelPlacement="outside"
-              className="w-full rounded-[2px] md:mt-[-20px]"
+              className="w-full rounded-[2px] md:mt-[-20px] bg-gray-100"
               label={<span className="text-white">Куда</span>}
               placeholder="Например, Каракол"
               radius="none"
@@ -95,12 +97,14 @@ export const CargoFilter = ({
                 );
               }}
             >
-              <SelectItem key={10} onClick={() => changeValue("", "ByTo")}>
-                {"--------"}
-              </SelectItem>
               {Points.map((item: any, index: number) => (
                 <SelectItem
-                  onClick={() => changeValue(item, "ByTo")}
+                  onClick={() =>
+                    changeValue(
+                      item.value === filter.ByTo.value ? "" : item,
+                      "ByTo"
+                    )
+                  }
                   key={index}
                 >
                   {item.label}
@@ -116,13 +120,14 @@ export const CargoFilter = ({
               label={<span className="text-white">Вес, кг</span>}
               fullWidth={true}
               placeholder="От"
-              className="font-mono max-w-32 min-w-32 md:max-w-full"
+              className="font-mono max-w-32 min-w-32 md:max-w-full active:"
               radius="none"
               labelPlacement="outside"
               value={filter.ByWeightFrom}
               onChange={(e) => changeValue(e.target.value, "ByWeightFrom")}
               isClearable
               onClear={() => changeValue("", "ByWeightFrom")}
+              classNames={stylesInput}
             />
             <Input
               type="number"
@@ -136,6 +141,7 @@ export const CargoFilter = ({
               onChange={(e) => changeValue(e.target.value, "ByWeightTo")}
               isClearable
               onClear={() => changeValue("", "ByWeightTo")}
+              classNames={stylesInput}
             />
           </div>
           <div className="md:w-full flex items-center gap-[1px] ">
@@ -151,6 +157,7 @@ export const CargoFilter = ({
               onChange={(e) => changeValue(e.target.value, "BySizeFrom")}
               isClearable
               onClear={() => changeValue("", "BySizeFrom")}
+              classNames={stylesInput}
             />
             <Input
               type="number"
@@ -164,6 +171,7 @@ export const CargoFilter = ({
               onChange={(e) => changeValue(e.target.value, "BySizeTo")}
               isClearable
               onClear={() => changeValue("", "BySizeTo")}
+              classNames={stylesInput}
             />
           </div>
         </div>
@@ -189,7 +197,7 @@ export const CargoFilter = ({
           <div className="w-full">
             <Select
               labelPlacement="outside"
-              className="w-[350px] md:w-full"
+              className="w-[350px] md:w-full bg-gray-100"
               label={<span className="text-white">Тип кузова</span>}
               placeholder="Например, Крытый"
               radius="none"

@@ -59,7 +59,7 @@ const Table = (props: IProps) => {
                           <th
                             key={index + 1}
                             scope="col"
-                            className="py-5 px-12 text-sm font-normal text-left rtl:text-right text-gray-400"
+                            className="py-5 px-12 text-sm font-normal text-left rtl:text-right text-gray-200"
                           >
                             {item.label}
                           </th>
@@ -78,7 +78,7 @@ const Table = (props: IProps) => {
                                   props.onClickCard && props.onClickCard(item)
                                 }
                                 key={index}
-                                className="px-12 py-4 text-sm font-medium whitespace-nowrap"
+                                className="px-12 py-4 text-sm font-medium whitespace-nowrap text-white"
                               >
                                 {TableCell({
                                   data: item,

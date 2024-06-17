@@ -58,3 +58,13 @@ export const FormatDateToRussian = (dateStr: string): string => {
 };
 
 export const PAGE_SIZES = [5, 10, 15, 20];
+
+export const stylesInput = {
+  input: [
+    "bg-gray-100 hover:bg-gray-200 transition-all duration-200 active:bg-gray-100 focus:bg-gray-100"
+  ],
+  innerWrapper: ["bg-gray-100"],
+  inputWrapper: [
+    "bg-gray-100"]
+  }
+
