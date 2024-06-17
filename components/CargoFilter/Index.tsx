@@ -36,7 +36,7 @@ export const CargoFilter = ({
   };
 
   return (
-    <div className="w-full h-full bg-grayRoot rounded-md p-4">
+    <div className="w-full h-fit bg-grayRoot rounded-md p-4">
       <div className="flex justify-between items-center gap-4 md:flex-col md:w-full">
         <div className="w-full flex items-end gap-2 md:flex-col md:items-center md:gap-0">
           <Select

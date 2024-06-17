@@ -37,15 +37,19 @@ export const Filter = () => {
       startPeriod: null,
       endPeriod: null,
     });
-    setCarId([])
+    setCarId([]);
   };
 
   const { data = { content: [], totalPages: 0 }, isLoading } = useGetCargoQuery(
     {
       page: page,
       size: size,
-      params: {...filter, Byfrom: filter.ByFrom.value, ByTo: filter.ByTo.value},
-      carId: carId.map((item: any) => item.value ),
+      params: {
+        ...filter,
+        ByFrom: filter.ByFrom.value,
+        ByTo: filter.ByTo.value,
+      },
+      carId: carId.map((item: any) => item.value),
     }
   );
   const { data: Points = [], isLoading: PointLoading } = useGetPointsQuery();
