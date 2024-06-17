@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
+import { Metadata } from "next";
 import clsx from "clsx";
 
 import { Providers } from "@/providers/providers";
@@ -21,13 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-// export const viewport: Viewport = {
-//   themeColor: [
-//     { media: "(prefers-color-scheme: light)", color: "white" },
-//     { media: "(prefers-color-scheme: dark)", color: "black" },
-//   ],
-// };
-
 export default function RootLayout({
   children,
 }: {
@@ -35,16 +28,15 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
       <body
         className={clsx(
-          "min-h-screen font-sans antialiased bg-grayRoot",
+          "h-full min-h-screen font-sans antialiased bg-grayRoot",
           fontMono.variable
         )}
       >
         <ReduxProvider>
           <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-            <div className="relative flex flex-col items-center">
+            <div className="min-h-screen h-full relative flex flex-col items-center justify-between">
               <Header />
               <main className="container">{children}</main>
               <Footer />

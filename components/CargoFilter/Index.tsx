@@ -14,7 +14,6 @@ export const CargoFilter = ({
   setFilter,
   Points,
   Cars,
-  CarsLoading,
   handleClear,
   carId,
   setCarId,

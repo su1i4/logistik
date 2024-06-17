@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Button,
   Input,
 } from "@nextui-org/react";
@@ -14,6 +13,8 @@ import { useLazyLoginQuery } from "@/services/cargo.service";
 
 import { FaUser } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa6";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,10 +22,12 @@ interface ModalProps {
 }
 
 export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
-  const [login, { data, isLoading }] = useLazyLoginQuery();
+  const { push } = useRouter();
+
+  const [login, { isLoading }] = useLazyLoginQuery();
   const [state, setState] = useState({
-    login: "",
-    password: "",
+    login: "Logistkgjrtl",
+    password: "MrmnStmr",
   });
 
   const changeValue = (event: any) => {
@@ -35,10 +38,12 @@ export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
     });
   };
 
-  const handlePost = async (event: any) => {
-    const response = await login({ body: state });
+  const handlePost = async () => {
     try {
-      // onOpenChange(false)
+      const response = await login({ body: state }).unwrap();
+      Cookies.set("user_token", response.token);
+      push("/admin");
+      onOpenChange(false);
     } catch (error) {}
   };
 

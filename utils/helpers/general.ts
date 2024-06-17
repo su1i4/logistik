@@ -1,5 +1,3 @@
-
-
 interface AnyObject {
   [key: string]: any;
 }
@@ -59,11 +57,4 @@ export const FormatDateToRussian = (dateStr: string): string => {
   return `${day} ${month} ${year} г`;
 };
 
-export const PAGE_SIZES = [5, 10, 15, 20]
-
-function getValueOrDash(value: any) {
-  if (value === null || value === undefined || value === '') {
-    return '-';
-  }
-  return value;
-}
+export const PAGE_SIZES = [5, 10, 15, 20];

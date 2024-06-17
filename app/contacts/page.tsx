@@ -7,19 +7,21 @@ import { MdLocalPhone } from "react-icons/md";
 
 export default function Contacts() {
   return (
-    <section className="w-full h-[90vh] flex items-center justify-between p-4 gap-4 bg-gray-100 lg:flex-col lg:items-start lg:justify-start lg:gap-0 lg:h-fit">
+    <section className="w-full h-[90vh] flex items-center justify-between p-4 gap-4 bg-gray-100 lg:flex-col lg:items-start lg:justify-start lg:gap-0 lg:h-fit text-black">
       <div className="w-full pr-10 h-[70vh] grid grid-rows-6 font-mono lg-[30vh] lg:pr-0">
         <p className="text-3xl font-[700]">Как нас найти</p>
-        <p className="text-xl font-[400] mt-">
-          Офис работает с 9 утра до 6 вечера. <br /> Выходные - суббота,
-          воскресенье
+        <p className="text-xl font-[400]">
+          Офис работает с 9 утра до 4 вечера.
+          <br />
+          <br />
+          Звонить можно круглосуточно
         </p>
-        <p className="w-full border-t-[1px] border-solid border-gray-400">
-          <span className="font-[700]">Адрес: </span> г Бишкек, ул Гражданская
-          53, 2 этаж, офис 4
+        <p className="w-full border-t-[1px] border-solid flex items-center text-[20px] border-gray-400">
+          <span className="font-[700]">Адрес: </span> Исы Ахунбаева, 131 адрес
         </p>
-        <p className="w-full border-t-[1px] border-solid border-gray-400">
-          <span className="font-[700]">Телефон:</span> +996 (312) 364-000
+        <p className="w-full border-t-[1px] border-solid border-gray-400 flex flex-col justify-around">
+          <span className="font-[700]">Телефон: +996 (770) 555-349</span>
+          <span className="font-[700]">Телефон: +996 (707) 602-639</span>
         </p>
         <div className="flex flex-col w-full border-t-[1px] border-solid border-gray-400 pt-4 gap-4 lg:flex-row">
           <a href="tel:">

@@ -1,26 +1,29 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { Button } from "@nextui-org/react";
 import { FaBoxOpen } from "react-icons/fa";
 import { MdLocalPhone } from "react-icons/md";
-import { useWindowWidth } from "@/utils/helpers/clientFunctions";
 import Link from "next/link";
 import DynamicLottieComponent from "@/components/car-animation/index";
 import { useDisclosure } from "@nextui-org/react";
 import { Navbar, NavbarMenuToggle, NavbarMenu } from "@nextui-org/react";
 
 import { Login } from "@/components/Modals/Login";
+import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
 
 export const Header = () => {
-  const width = useWindowWidth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [showAnimation, setShowAnimation] = useState(true);
 
-  const toggleAnimation = useCallback(() => {
-    setShowAnimation((prevShowAnimation) => !prevShowAnimation);
-  }, []);
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const handleLogout = () => {
+    Cookies.remove("user_token");
+    push("/");
+  };
 
   return (
     <>
@@ -32,13 +35,13 @@ export const Header = () => {
       >
         <Link href="/">
           <div className="flex items-center gap-1 cursor-pointer xs:ml-[-25px]">
-            {showAnimation && <DynamicLottieComponent />}
+            <DynamicLottieComponent />
             <h1 className="text-white font-mono text-lg ml-[-10px] xs:ml-[-15px]">
               LOGISTIK-KG
             </h1>
           </div>
         </Link>
-        <div className="flex items-center gap-5 md:hidden ">
+        <div className="flex items-center gap-5 md:hidden">
           <Link href="/contacts">
             <Button
               className="font-mono"
@@ -49,38 +52,64 @@ export const Header = () => {
               <p className="text-white">Контакты</p>
             </Button>
           </Link>
-          <Button
-            onPress={onOpen}
-            className="font-mono"
-            radius="full"
-            variant="bordered"
-            startContent={<FaBoxOpen className="text-white text-lg" />}
-          >
-            <p className="text-white">Добавить груз</p>
-          </Button>
+          {pathname === "/admin" ? (
+            <Button
+              onPress={handleLogout}
+              className="font-mono"
+              radius="full"
+              variant="bordered"
+            >
+              <p className="text-white">Выйти</p>
+            </Button>
+          ) : (
+            <Button
+              onPress={onOpen}
+              className="font-mono"
+              radius="full"
+              variant="bordered"
+              startContent={<FaBoxOpen className="text-white text-lg" />}
+            >
+              <p className="text-white">Добавить груз</p>
+            </Button>
+          )}
         </div>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="hidden md:block text-white"
         />
-        <NavbarMenu className={`backdrop-saturate-200 backdrop-blur-sm bg-opacity-80 bg-grayRoot/70 max-h-[30vh] mt-[-5px] ${isOpen? 'z-10': 'z-[99999]'}`}>
-          <Button
-            onPress={() => {
-              setIsMenuOpen(false);
-              onOpen();
-            }}
-            className="font-mono border-[white]"
-            radius="full"
-            variant="bordered"
-            startContent={<FaBoxOpen className="text-white text-lg" />}
-          >
-            <p className="text-white">Добавить груз</p>
-          </Button>
+        <NavbarMenu
+          className={`backdrop-saturate-200 backdrop-blur-sm bg-opacity-80 bg-grayRoot/70 max-h-[30vh] mt-[-5px] ${
+            isOpen ? "z-10" : "z-[99999]"
+          }`}
+        >
+          {pathname === "/admin" ? (
+            <Button
+              onPress={handleLogout}
+              className="font-mono"
+              radius="full"
+              variant="bordered"
+            >
+              <p className="text-white">Выйти</p>
+            </Button>
+          ) : (
+            <Button
+              onPress={() => {
+                setIsMenuOpen(false);
+                onOpen();
+              }}
+              className="font-mono border-[white]"
+              radius="full"
+              variant="bordered"
+              startContent={<FaBoxOpen className="text-white text-lg" />}
+            >
+              <p className="text-white">Добавить груз</p>
+            </Button>
+          )}
           <Link className="w-full" href="/contacts">
             <Button
               className="font-mono border-white"
               radius="full"
-              fullWidth={true}
+              fullWidth
               variant="bordered"
               startContent={<MdLocalPhone className="text-white text-lg" />}
             >
