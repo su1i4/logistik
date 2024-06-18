@@ -25,7 +25,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { Marker, Popup, ViewStateChangeEvent } from "react-map-gl";
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { DatePicker } from "@/components/DatePicker";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYTZ1eGE0IiwiYSI6ImNscGhibWM5aTA1c28ycm1oNGdjYTYybnQifQ.JFaTlYbkSMf395KgTMMkSQ";
@@ -39,14 +38,6 @@ interface CreateModalProps {
   setCarId: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-interface Point {
-  label: string;
-}
-
-interface Car {
-  label: string;
-}
-
 interface Coordinates {
   longitude: number;
   latitude: number;
@@ -57,8 +48,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   filter,
   setFilter,
   onOpenChange,
-  carId,
-  setCarId,
 }) => {
   const { data: Cars = [] } = useGetCarsQuery();
   const { data: Points = [] } = useGetPointsQuery();
@@ -73,13 +62,13 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   };
 
   const handleSelectChange = (value: number) => {
-    let ids = [...carId];
+    let ids = [...filter.carId];
     if (ids.includes(value)) {
       ids = ids.filter((id) => id !== value);
     } else {
       ids.push(value);
     }
-    setCarId(ids);
+    setFilter({ ...filter, carId: ids });
   };
 
   const [viewport, setViewport] = useState({
@@ -89,7 +78,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   });
   const [pointA, setPointA] = useState<Coordinates | null>(null);
   const [pointB, setPointB] = useState<Coordinates | null>(null);
-  const [showDirections, setShowDirections] = useState(false);
 
   const handleViewportChange = useCallback((event: ViewStateChangeEvent) => {
     const { longitude, latitude, zoom } = event.viewState;
@@ -110,7 +98,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
       } else {
         setPointA((prevState) => ({ longitude, latitude }));
         setPointB((prevState) => null);
-        setShowDirections(false);
       }
     },
     [pointA, pointB]
@@ -129,7 +116,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
       map.addControl(directions, "top-left");
       directions.setOrigin([pointA.longitude, pointA.latitude]);
       directions.setDestination([pointB.longitude, pointB.latitude]);
-      setShowDirections(true);
     }
   }, [pointA, pointB]);
 
@@ -138,10 +124,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
       await postCargo({});
     } catch (error) {}
   };
-
-  const combinedArray = Object.values(Cars).flatMap((array) => array);
-
-  console.log(pointA, pointB, "this is Points");
 
   return (
     <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -152,22 +134,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               Добавить груз
             </ModalHeader>
             <ModalBody>
-              <div className="w-full flex items-center gap-[1px]">
-                <DatePicker
-                  value={filter.startDate}
-                  changeValue={changeValue}
-                  name="startDate"
-                  show={true}
-                  placeholder="От"
-                />
-                <DatePicker
-                  value={filter.endDate}
-                  changeValue={changeValue}
-                  placeholder="До"
-                  name="endDate"
-                  show={false}
-                />
-              </div>
+              <DateRangePicker />
               <div className="flex items-center gap-2">
                 <Select
                   className="w-full"
@@ -235,9 +202,9 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                 renderValue={() => {
                   return (
                     <div>
-                      {combinedArray.map((id: any) => (
-                        <span key={id} className=" mr-1">
-                          {id.label}
+                      {filter.carId.map((item: any, index: number) => (
+                        <span key={index} className="mr-1">
+                          {item.label},
                         </span>
                       ))}
                     </div>
@@ -248,7 +215,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
                     {items.map((item: any, itemIndex: number) => (
                       <SelectItem
-                        onClick={() => handleSelectChange(item.value)}
+                        onClick={() => handleSelectChange(item)}
                         key={`${key}-${itemIndex}`}
                       >
                         {item.label}

@@ -195,11 +195,11 @@ export default function AdminPage() {
 
   return (
     <>
-      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-32">
-        <div className="flex justify-between">
-          <div className="w-fit flex items-end gap-2">
+      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-[150px]">
+        <div className="flex justify-between lg:flex-col lg:items-center lg:gap-2">
+          <div className="w-fit flex items-end gap-2 md:flex-col md:w-full">
             <Select
-              className="w-[300px] bg-gray-100"
+              className="w-[300px] bg-gray-100 md:w-full"
               labelPlacement="outside"
               placeholder="Например, Бишкек"
               radius="none"
@@ -232,10 +232,12 @@ export default function AdminPage() {
                 </SelectItem>
               ))}
             </Select>
-            <Switch setFilter={setFilter} filter={filter} />
+            <div className="md:hidden">
+              <Switch setFilter={setFilter} filter={filter} />
+            </div>
             <Select
               labelPlacement="outside"
-              className="w-[300px] bg-gray-100"
+              className="w-[300px] bg-gray-100 md:w-full"
               placeholder="Например, Каракол"
               radius="none"
               renderValue={() => {
@@ -270,7 +272,7 @@ export default function AdminPage() {
           </div>
           <Select
             labelPlacement="outside"
-            className="w-[250px] bg-gray-100"
+            className="w-[250px] bg-gray-100 lg:w-full"
             placeholder="Например, Крытый"
             radius="none"
             selectionMode="multiple"
