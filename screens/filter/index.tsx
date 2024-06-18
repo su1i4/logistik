@@ -77,6 +77,7 @@ export const Filter = () => {
         setSize={setSize}
         isLoading={isLoading}
         totalPages={data?.totalPages}
+        Cars={Cars}
       />
     </section>
   );

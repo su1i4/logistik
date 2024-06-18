@@ -7,7 +7,7 @@ import Map, {
   Layer,
 } from "react-map-gl";
 import { useState, useEffect } from "react";
-import { useGetOneCargoQuery } from "@/services/cargo.service";
+import { useGetOneCargoQuery, useGetCarsQuery } from "@/services/cargo.service";
 import { Button } from "@nextui-org/button";
 import { MdLocalPhone } from "react-icons/md";
 import { IoLogoWhatsapp } from "react-icons/io";
@@ -18,6 +18,9 @@ import { BsChatRightDotsFill } from "react-icons/bs";
 import { FormatDateToRussian } from "@/utils/helpers/general";
 
 export default function Cargo({ params }: { params: { cargoId: string } }) {
+  const { data: Cars = [], isLoading: CarsLoading } = useGetCarsQuery();
+  const [array, setArray] = useState<any>([]);
+
   const [directions, setDirections] = useState<any>(null);
   const [distance, setDistance] = useState<any>(null);
   const [mapLocation, setMapLocation] = useState<any>({
@@ -30,6 +33,12 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
   const { data, isLoading } = useGetOneCargoQuery(params.cargoId, {
     skip: params.cargoId === undefined,
   });
+
+  useEffect(() => {
+    if (typeof Cars === 'object' && Cars !== null) {
+      setArray([...(Cars.popularCar || []), ...(Cars.allCar || [])]);
+    }
+  }, [Cars]);
 
   useEffect(() => {
     if (data) {
@@ -101,6 +110,18 @@ export default function Cargo({ params }: { params: { cargoId: string } }) {
               {FormatDateToRussian(data?.startDate)}
               <IoArrowUpSharp className="text-xl text-green-700 rotate-90" />
               {FormatDateToRussian(data?.endDate)}
+            </div>
+            <div className="flex max-w-4/5 xs:max-w-full flex-wrap cursor-pointer">
+              {array
+                ?.filter((car: any) => data?.carId.includes(car.value))
+                .map((item: any, index: number) => (
+                  <span
+                    key={index}
+                    className="text-white mr-1 text-sm line-clamp-4"
+                  >
+                    {item.label},
+                  </span>
+                ))}
             </div>
             <div className="text-white flex items-start gap-2">
               <BsChatRightDotsFill className="text-milk mt-[6px]" />

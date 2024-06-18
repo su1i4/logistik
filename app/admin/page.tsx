@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Button,
@@ -27,6 +27,7 @@ import { EditIcon } from "@/public/icons/EditIcon";
 import { CreateModal } from "./CreateModal";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function AdminPage() {
   const { onOpenChange, isOpen, onClose } = useDisclosure();
@@ -34,6 +35,8 @@ export default function AdminPage() {
   const { push } = useRouter();
 
   const [page, setPage] = useState<number>(1);
+  const [cargoId, setCargoId] = useState(0)
+  const [type, setType ] =useState('post')
 
   const [cargoData, setCargoData] = useState({
     startDate: "",
@@ -59,6 +62,7 @@ export default function AdminPage() {
     ByTo: "",
   });
   const [carId, setCarId] = useState<any>([]);
+  const [array, setArray] = useState<any>([]);
 
   const { data = { content: [], totalPages: 0 }, isLoading } = useGetCargoQuery(
     {
@@ -75,10 +79,21 @@ export default function AdminPage() {
   const { data: Points = [] } = useGetPointsQuery();
   const { data: Cars = [] } = useGetCarsQuery();
 
+  useEffect(() => {
+    if (typeof Cars === "object" && Cars !== null) {
+      setArray([...(Cars.popularCar || []), ...(Cars.allCar || [])]);
+    }
+  }, [Cars]);
+
   const [deleteCargo] = useDeleteCargoMutation();
 
   const handleDelete = async (cargoId: any) => {
-    await deleteCargo(cargoId);
+    try {
+      const response = await deleteCargo(cargoId);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error("Произошла ошибка!");
+    }
   };
 
   const changeValue = (value: any, name: string) => {
@@ -101,6 +116,31 @@ export default function AdminPage() {
   const handleNavigate = (id: any) => {
     Cookies.set("user_token", "AUTHORIZED");
     push(`/cargo/${id}`);
+  };
+
+  const handlePut = (data: any) => {
+    setType('put')
+    setCargoId(data.cargoId)
+    setCargoData({
+      startDate: data.startDate,
+      endDate: data.endDate,
+      carId: data.carId,
+      ByFrom: data.ByFrom.value,
+      ByTo: data.ByTo.value,
+      productName: data.productName,
+      BySize: data.BySize,
+      ByWeight: data.ByWeight,
+      ByComment: data.ByComment,
+      fromMap: {
+        lattitude: data.fromMap.lattitude,
+        longitude: data.fromMap.longitude,
+      },
+      toMap: {
+        lattitude: data.toMap.lattitude,
+        longitude: data.toMap.longitude,
+      },
+    });
+    onOpenChange()
   };
 
   const COLUMNS_CUSTOMER = [
@@ -139,6 +179,43 @@ export default function AdminPage() {
             <span>-</span>
             <span>{FormatDateToRussian(endPeriod)}</span>
           </div>
+        );
+      },
+    },
+    {
+      label: "Тип кузова",
+      action: (data: any) => {
+        return (
+          <Tooltip
+            className="w-[150px]"
+            content={
+              <div className="flex max-w-4/5 xs:max-w-full flex-wrap cursor-pointer">
+                {array
+                  ?.filter((car: any) => data?.carId.includes(car.value))
+                  .map((item: any, index: number) => (
+                    <span
+                      key={index}
+                      className="text-black mr-1 text-sm line-clamp-4"
+                    >
+                      {item.label},
+                    </span>
+                  ))}
+              </div>
+            }
+          >
+            <div className="flex max-w-4/5 xs:max-w-full flex-wrap cursor-pointer">
+              {array
+                ?.filter((car: any) => data?.carId.includes(car.value))
+                .map((item: any, index: number) => (
+                  <span
+                    key={index}
+                    className="text-white mr-1 text-sm line-clamp-4"
+                  >
+                    {item.label},
+                  </span>
+                ))}
+            </div>
+          </Tooltip>
         );
       },
     },
@@ -183,7 +260,13 @@ export default function AdminPage() {
               </Button>
             </Tooltip>
             <Tooltip content="Редактировать">
-              <Button size="sm" isIconOnly color="success" aria-label="Like">
+              <Button
+                onClick={() => handlePut(data)}
+                size="sm"
+                isIconOnly
+                color="success"
+                aria-label="Like"
+              >
                 <EditIcon width={15} height={15} />
               </Button>
             </Tooltip>
@@ -195,7 +278,7 @@ export default function AdminPage() {
 
   return (
     <>
-      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-[150px]">
+      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-[200px]">
         <div className="flex justify-between lg:flex-col lg:items-center lg:gap-2">
           <div className="w-fit flex items-end gap-2 md:flex-col md:w-full">
             <Select
@@ -311,7 +394,10 @@ export default function AdminPage() {
             ))}
           </Select>
           <Button
-            onClick={onOpenChange}
+            onClick={() => {
+              setType('post')
+              onOpenChange()
+            }}
             className="bg-[#27272a] text-white"
             endContent={<PlusIcon />}
             size="md"
@@ -336,6 +422,8 @@ export default function AdminPage() {
         filter={cargoData}
         setFilter={setCargoData}
         onClose={onClose}
+        cargoId={cargoId}
+        type={type}
       />
     </>
   );

@@ -4,6 +4,7 @@ import {
   useGetCarsQuery,
   useGetPointsQuery,
   usePostCargoMutation,
+  usePutCargoMutation,
 } from "@/services/cargo.service";
 import { TYPES_CARS } from "@/utils/helpers/general";
 import {
@@ -26,6 +27,7 @@ import Map, { Marker, Popup, ViewStateChangeEvent } from "react-map-gl";
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { formatDate } from "@/utils/helpers/clientFunctions";
+import toast from "react-hot-toast";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYTZ1eGE0IiwiYSI6ImNscGhibWM5aTA1c28ycm1oNGdjYTYybnQifQ.JFaTlYbkSMf395KgTMMkSQ";
@@ -36,6 +38,8 @@ interface CreateModalProps {
   setFilter: React.Dispatch<React.SetStateAction<any>>;
   onOpenChange: (isOpen: boolean) => void;
   onClose: any;
+  cargoId: any;
+  type: string;
 }
 
 interface Coordinates {
@@ -49,9 +53,13 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   setFilter,
   onOpenChange,
   onClose,
+  cargoId,
+  type,
 }) => {
   const { data: Cars = [] } = useGetCarsQuery();
   const { data: Points = [] } = useGetPointsQuery();
+
+  const [putCargo] = usePutCargoMutation();
 
   const [postCargo] = usePostCargoMutation();
 
@@ -135,14 +143,31 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   }, [pointA, pointB]);
 
   const handlePost = async () => {
-    try {
-      await postCargo({
-        ...filter,
-        carId: filter.carId.map((item: any) => item.value),
-      }).unwrap();
-      handleClose();
-    } catch (error) {}
+    if (type === "post") {
+      try {
+        const response = await postCargo({
+          ...filter,
+          carId: filter.carId.map((item: any) => item.value),
+        }).unwrap();
+        handleClose();
+        toast.success("Груз успешно добавлен");
+      } catch (error) {}
+    } else {
+      try {
+        const response = await putCargo({
+          cargoId: cargoId,
+          body: {
+            ...filter,
+            carId: filter.carId.map((item: any) => item.value || item),
+          },
+        }).unwrap();
+        handleClose();
+        toast.success("Груз успешно обновлен");
+      } catch (error) {}
+    }
   };
+
+  console.log(filter, 'this is filter cargo')
 
   const handleClose = () => {
     onClose();
@@ -246,17 +271,17 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                 placeholder="Тип кузова"
                 selectionMode="multiple"
                 fullWidth
-                renderValue={() => {
-                  return (
-                    <div>
-                      {filter.carId.map((item: any, index: number) => (
-                        <span key={index} className="mr-1">
-                          {item.label},
-                        </span>
-                      ))}
-                    </div>
-                  );
-                }}
+                // renderValue={() => {
+                //   return (
+                //     <div>
+                //       {filter.carId.map((item: any, index: number) => (
+                //         <span key={index} className="mr-1">
+                //           {item.label},
+                //         </span>
+                //       ))}
+                //     </div>
+                //   );
+                // }}
               >
                 {Object.entries(Cars).map(([key, items]: [any, any]) => (
                   <SelectSection key={key} showDivider title={TYPES_CARS[key]}>
@@ -265,7 +290,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                         onClick={() => handleSelectChange(item)}
                         key={`${key}-${itemIndex}`}
                       >
-                        {item.label}
+                        {item.label }
                       </SelectItem>
                     ))}
                   </SelectSection>

@@ -5,7 +5,7 @@ import CardSkeleton from "../Cards/CargoCardSkeleton";
 import { CargoCardType } from "@/types";
 import { PAGE_SIZES } from "@/utils/helpers/general";
 import { Select, SelectItem } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaWeightHanging } from "react-icons/fa6";
 import { FaBoxOpen, FaCalendarDay, FaRoad } from "react-icons/fa";
 import { BsChatRightDotsFill } from "react-icons/bs";
@@ -19,12 +19,20 @@ export const CargoList = ({
   setPage,
   setSize,
   isLoading,
+  Cars
 }: any) => {
   const handlePaginationChange = (event: any) => {
     setPage(event);
   };
 
   const [showIndex, setShowIndex] = useState(-1);
+  const [array, setArray] = useState<any>([])
+
+  useEffect(() => {
+    if (typeof Cars === 'object' && Cars !== null) {
+      setArray([...(Cars.popularCar || []), ...(Cars.allCar || [])]);
+    }
+  }, [Cars]);
 
   return (
     <div className="p-8 md:p-4 xs:p-2 pt-[145px] md:pt-[420px] sm:pt-[510px] xs:pt-[490px]">
@@ -50,7 +58,7 @@ export const CargoList = ({
           ))}
         </Select>
       </div>
-      <div className="sticky top-[70px] font-mono text-white w-full grid grid-cols-5 bg-lightGray rounded-b-md p-2 mb-3 md:hidden z-[100]">
+      <div className="sticky top-[70px] font-mono text-white w-full grid grid-cols-6 bg-lightGray rounded-b-md p-2 mb-3 md:hidden z-[100]">
         <div className="flex items-center gap-2">
           <FaRoad className="text-milk" />
           Направление
@@ -67,6 +75,7 @@ export const CargoList = ({
           <FaCalendarDay className="text-milk" />
           Дата, От / До
         </div>
+        <div>Тип кузова</div>
         <div className="flex items-center gap-2">
           <BsChatRightDotsFill className="text-milk" />
           Комментарий
@@ -81,11 +90,12 @@ export const CargoList = ({
                 index={index}
                 showIndex={showIndex}
                 setShowIndex={setShowIndex}
+                Cars={array}
               />
             ))
           : Array.from({ length: 4 }).map((_: any, index: number) => (
               <CardSkeleton key={index} />
-          ))}
+            ))}
         {totalPages > 1 && (
           <div className="w-full flex justify-center">
             <CustomPagination

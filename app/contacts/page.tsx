@@ -13,7 +13,7 @@ import Map, {
 
 export default function Contacts() {
   return (
-    <section className="w-full h-[90vh] flex items-center justify-between p-4 gap-4 bg-gray-100 lg:flex-col lg:items-start lg:justify-start lg:gap-0 lg:h-fit text-black">
+    <section className="w-full h-[90vh] flex items-center justify-between p-4 gap-4 bg-gray-100 lg:flex-col lg:items-start lg:justify-start lg:gap-0 lg:h-full text-black">
       <div className="w-full pr-10 h-[70vh] grid grid-rows-6 font-mono lg-[30vh] lg:pr-0">
         <p className="text-3xl font-[700]">Как нас найти</p>
         <p className="text-xl font-[400]">
@@ -25,7 +25,7 @@ export default function Contacts() {
         <p className="w-full border-t-[1px] border-solid flex items-center text-[20px] border-gray-400 mt-2">
           <span className="font-[700]">Адрес: </span> Исы Ахунбаева, 131 адрес
         </p>
-        <div className="w-full border-t-[1px] border-solid border-gray-400 flex flex-col justify-around gap-5 h-[150px] border-b">
+        <div className="w-full border-t-[1px] border-solid border-gray-400 flex flex-col justify-around gap-5 h-[150px] lg:h-fit py-2 border-b">
           <div className="flex items-center gap-3 md:flex-col">
             <span className="font-[700]">Телефон: +996 (770) 555-349</span>{" "}
             <a href="whatsapp://send?abid=+996770555349">
