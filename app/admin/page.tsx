@@ -16,7 +16,6 @@ import {
   useGetCarsQuery,
   useGetPointsQuery,
   useDeleteCargoMutation,
-  usePutCargoMutation,
 } from "@/services/cargo.service";
 import { FormatDateToRussian, TYPES_CARS } from "@/utils/helpers/general";
 import { Switch } from "@/components/SwitchPlace";
@@ -35,8 +34,8 @@ export default function AdminPage() {
   const { push } = useRouter();
 
   const [page, setPage] = useState<number>(1);
-  const [cargoId, setCargoId] = useState(0)
-  const [type, setType ] =useState('post')
+  const [cargoId, setCargoId] = useState(0);
+  const [type, setType] = useState("post");
 
   const [cargoData, setCargoData] = useState({
     startDate: "",
@@ -68,7 +67,7 @@ export default function AdminPage() {
     {
       page: page,
       size: 7,
-      carId,
+      carId: carId.map((item: any) => item.value),
       params: {
         ByFrom: filter.ByFrom.value,
         ByTo: filter.ByTo.value,
@@ -119,8 +118,8 @@ export default function AdminPage() {
   };
 
   const handlePut = (data: any) => {
-    setType('put')
-    setCargoId(data.cargoId)
+    setType("put");
+    setCargoId(data.cargoId);
     setCargoData({
       startDate: data.startDate,
       endDate: data.endDate,
@@ -140,7 +139,7 @@ export default function AdminPage() {
         longitude: data.toMap.longitude,
       },
     });
-    onOpenChange()
+    onOpenChange();
   };
 
   const COLUMNS_CUSTOMER = [
@@ -395,8 +394,8 @@ export default function AdminPage() {
           </Select>
           <Button
             onClick={() => {
-              setType('post')
-              onOpenChange()
+              setType("post");
+              onOpenChange();
             }}
             className="bg-[#27272a] text-white"
             endContent={<PlusIcon />}
