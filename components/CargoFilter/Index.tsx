@@ -117,7 +117,7 @@ export const CargoFilter = ({
           <div className="md:w-full flex items-center gap-[1px]">
             <Input
               type="number"
-              label={<span className="text-white">Вес, кг</span>}
+              label={<span className="text-white">Вес, т</span>}
               fullWidth={true}
               placeholder="От"
               className="font-mono max-w-32 min-w-32 md:max-w-full active:"

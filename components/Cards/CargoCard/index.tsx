@@ -36,7 +36,7 @@ export const CargoCard = ({
       <div className="xs:text-sm">
         <p className="md:flex justify-start gap-1">
           <span>
-            {props.ByWeight} кг / {props.BySize} м³
+            {props.ByWeight} т / {props.BySize} м³
           </span>{" "}
           <span className="hidden md:block"> / {props.productName}</span>
         </p>

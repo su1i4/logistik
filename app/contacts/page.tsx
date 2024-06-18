@@ -3,13 +3,7 @@
 import { Button } from "@nextui-org/react";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import { MdLocalPhone } from "react-icons/md";
-import Map, {
-  NavigationControl,
-  GeolocateControl,
-  Source,
-  Layer,
-  Marker,
-} from "react-map-gl";
+import Map, { NavigationControl, GeolocateControl, Marker } from "react-map-gl";
 
 export default function Contacts() {
   return (
@@ -28,7 +22,7 @@ export default function Contacts() {
         <div className="w-full border-t-[1px] border-solid border-gray-400 flex flex-col justify-around gap-5 h-[150px] lg:h-fit py-2 border-b">
           <div className="flex items-center gap-3 md:flex-col">
             <span className="font-[700]">Телефон: +996 (770) 555-349</span>{" "}
-            <a href="whatsapp://send?abid=+996770555349">
+            <a href="https://wa.me/996770555349">
               <Button
                 className="border-[2px] border-solid border-[#28D146]"
                 radius="full"
@@ -55,7 +49,7 @@ export default function Contacts() {
           </div>
           <div className="flex items-center gap-3 md:flex-col">
             <span className="font-[700]">Телефон: +996 (707) 602-639</span>{" "}
-            <a href="whatsapp://send?abid=+996707602639">
+            <a href="https://wa.me/996707602639">
               <Button
                 className="border-[2px] border-solid border-[#28D146]"
                 radius="full"

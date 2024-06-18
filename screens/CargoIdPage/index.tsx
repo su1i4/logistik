@@ -96,7 +96,7 @@ export default function CargoIdPage({
               <FaWeightHanging />
               <p className="md:flex justify-start gap-1">
                 <span>
-                  {data?.ByWeight} кг / {data?.BySize} м³
+                  {data?.ByWeight} т / {data?.BySize} м³
                 </span>
               </p>
             </div>
@@ -115,7 +115,7 @@ export default function CargoIdPage({
                 <span className="text-white font-[700]">
                   Телефон: +996 (770) 555-349
                 </span>{" "}
-                <a href="whatsapp://send?abid=+996770555349">
+                <a href="https://wa.me/996770555349">
                   <Button
                     className="border-[2px] border-solid border-[#28D146]"
                     radius="full"
@@ -144,7 +144,7 @@ export default function CargoIdPage({
                 <span className="text-white font-[700]">
                   Телефон: +996 (707) 602-639
                 </span>{" "}
-                <a href="whatsapp://send?abid=+996707602639">
+                <a href="https://wa.me/996707602639">
                   <Button
                     className="border-[2px] border-solid border-[#28D146]"
                     radius="full"

@@ -69,7 +69,7 @@ export const CargoList = ({
         </div>
         <div className="flex items-center gap-2">
           <FaWeightHanging className="text-milk" />
-          Вес,кг / объём,м³
+          Вес,т / объём,м³
         </div>
         <div className="flex items-center gap-2">
           <FaCalendarDay className="text-milk" />
