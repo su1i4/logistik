@@ -1,25 +1,21 @@
 import "@/styles/globals.css";
-import { Metadata } from "next";
 import clsx from "clsx";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import { Providers } from "@/providers/providers";
 
-import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
 import { Header } from "@/screens/navbar/index";
 import { Footer } from "@/screens/footer";
 import { ReduxProvider } from "@/providers/ReduxProvider";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  icons: {
-    icon: "/favicon.ico",
-  },
+  title: "Logistic KG - Ваш надежный партнер по грузоперевозкам",
+  description:
+    "Logistic KG предоставляет качественные услуги по грузоперевозкам и логистике. Мы предлагаем надежные решения для доставки грузов по всей стране.",
+  keywords:
+    "грузоперевозки, логистика, доставка грузов, транспортные услуги, Logistic KG, логистические услуги, перевозка грузов",
 };
 
 export default function RootLayout({
@@ -28,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang="ru">
       <body
         className={clsx(
           "h-full min-h-screen font-sans antialiased bg-grayRoot",
