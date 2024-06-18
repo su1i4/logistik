@@ -25,6 +25,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Map, { Marker, Popup, ViewStateChangeEvent } from "react-map-gl";
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import { formatDate } from "@/utils/helpers/clientFunctions";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYTZ1eGE0IiwiYSI6ImNscGhibWM5aTA1c28ycm1oNGdjYTYybnQifQ.JFaTlYbkSMf395KgTMMkSQ";
@@ -34,8 +35,7 @@ interface CreateModalProps {
   filter: any;
   setFilter: React.Dispatch<React.SetStateAction<any>>;
   onOpenChange: (isOpen: boolean) => void;
-  carId: number[];
-  setCarId: React.Dispatch<React.SetStateAction<number[]>>;
+  onClose: any;
 }
 
 interface Coordinates {
@@ -48,6 +48,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   filter,
   setFilter,
   onOpenChange,
+  onClose,
 }) => {
   const { data: Cars = [] } = useGetCarsQuery();
   const { data: Points = [] } = useGetPointsQuery();
@@ -93,8 +94,22 @@ export const CreateModal: React.FC<CreateModalProps> = ({
       const [longitude, latitude] = event.lngLat.toArray();
       if (!pointA) {
         setPointA({ longitude, latitude });
+        setFilter((prevFilter: any) => ({
+          ...prevFilter,
+          fromMap: {
+            longitude,
+            lattitude: latitude,
+          },
+        }));
       } else if (!pointB) {
         setPointB({ longitude, latitude });
+        setFilter((prevFilter: any) => ({
+          ...prevFilter,
+          toMap: {
+            longitude,
+            lattitude: latitude,
+          },
+        }));
       } else {
         setPointA((prevState) => ({ longitude, latitude }));
         setPointB((prevState) => null);
@@ -121,12 +136,44 @@ export const CreateModal: React.FC<CreateModalProps> = ({
 
   const handlePost = async () => {
     try {
-      await postCargo({});
+      await postCargo({
+        ...filter,
+        carId: filter.carId.map((item: any) => item.value),
+      }).unwrap();
+      handleClose();
     } catch (error) {}
   };
 
+  const handleClose = () => {
+    onClose();
+    setFilter({
+      startDate: "",
+      endDate: "",
+      carId: [],
+      ByFrom: 0,
+      ByTo: 0,
+      productName: "",
+      BySize: "",
+      ByWeight: "",
+      ByComment: "",
+      fromMap: {
+        lattitude: "",
+        longitude: "",
+      },
+      toMap: {
+        lattitude: "",
+        longitude: "",
+      },
+    });
+  };
+
   return (
-    <Modal placement="center" isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      onClose={handleClose}
+      placement="center"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <ModalContent className="w-[400px] max-w-[400px] overflow-scroll max-h-[500px] z-[99999]">
         {(onClose) => (
           <>
@@ -134,7 +181,15 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               Добавить груз
             </ModalHeader>
             <ModalBody>
-              <DateRangePicker />
+              <DateRangePicker
+                onChange={({ start, end }) =>
+                  setFilter({
+                    ...filter,
+                    startDate: formatDate(start),
+                    endDate: formatDate(end),
+                  })
+                }
+              />
               <div className="flex items-center gap-2">
                 <Select
                   className="w-full"
@@ -144,10 +199,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   {Points.map((item: any, index: number) => (
                     <SelectItem
                       onClick={() =>
-                        changeValue(
-                          item.value === filter.ByFrom.value ? "" : item,
-                          "ByFrom"
-                        )
+                        setFilter({ ...filter, ByFrom: item.value })
                       }
                       key={index}
                     >
@@ -162,12 +214,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                 >
                   {Points.map((item: any, index: number) => (
                     <SelectItem
-                      onClick={() =>
-                        changeValue(
-                          item.value === filter.ByTo.value ? "" : item,
-                          "ByTo"
-                        )
-                      }
+                      onClick={() => setFilter({ ...filter, ByTo: item.value })}
                       key={index}
                     >
                       {item.label}
@@ -292,7 +339,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
+              <Button color="danger" variant="light" onPress={handleClose}>
                 Закрыть
               </Button>
               <Button color="primary" onPress={handlePost}>

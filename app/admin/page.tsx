@@ -29,7 +29,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
-  const { onOpenChange, isOpen } = useDisclosure();
+  const { onOpenChange, isOpen, onClose } = useDisclosure();
 
   const { push } = useRouter();
 
@@ -335,8 +335,7 @@ export default function AdminPage() {
         isOpen={isOpen}
         filter={cargoData}
         setFilter={setCargoData}
-        carId={carId}
-        setCarId={setCarId}
+        onClose={onClose}
       />
     </>
   );

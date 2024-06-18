@@ -6,10 +6,6 @@ export function middleware(request: NextRequest) {
 
   const isProtectedRoute = request.nextUrl.pathname.startsWith("/admin");
 
-  // if (token === "AUTHORIZED" && !isProtectedRoute) {
-  //   return NextResponse.redirect(new URL("/admin", request.url));
-  // }
-
   if (token !== "AUTHORIZED" && isProtectedRoute) {
     return NextResponse.redirect(new URL("/", request.url));
   }
