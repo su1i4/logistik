@@ -275,9 +275,18 @@ export default function AdminPage() {
     },
   ];
 
+  const handleClose = () => {
+    setFilter({
+      ByFrom: "",
+      ByTo: "",
+    });
+    setCarId([]);
+    setArray([]);
+  };
+
   return (
     <>
-      <div className="m-auto w-[80%] h-[100vh] mt-10 mb-[200px]">
+      <div className="m-auto w-[90%] h-[100vh] mt-10 mb-[200px]">
         <div className="flex justify-between lg:flex-col lg:items-center lg:gap-2">
           <div className="w-fit flex items-end gap-2 md:flex-col md:w-full">
             <Select
@@ -392,6 +401,13 @@ export default function AdminPage() {
               </SelectSection>
             ))}
           </Select>
+          <Button
+            onClick={handleClose}
+            className="bg-[#27272a] text-white"
+            size="md"
+          >
+            Очистить
+          </Button>
           <Button
             onClick={() => {
               setType("post");

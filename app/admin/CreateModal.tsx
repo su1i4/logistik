@@ -167,8 +167,6 @@ export const CreateModal: React.FC<CreateModalProps> = ({
     }
   };
 
-  console.log(filter, 'this is filter cargo')
-
   const handleClose = () => {
     onClose();
     setFilter({
@@ -203,7 +201,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Добавить груз
+              {type === "post" ? "Добавить груз" : "Редактировать груз"}
             </ModalHeader>
             <ModalBody>
               <DateRangePicker
@@ -290,7 +288,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                         onClick={() => handleSelectChange(item)}
                         key={`${key}-${itemIndex}`}
                       >
-                        {item.label }
+                        {item.label}
                       </SelectItem>
                     ))}
                   </SelectSection>
