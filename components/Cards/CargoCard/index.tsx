@@ -28,9 +28,9 @@ export const CargoCard = ({
         Подробнее
       </div>
       <div className="flex flex-col gap-1 md:flex-row md:gap-4 xs:text-sm text-white">
-        {props.ByFrom.label}
+        {props.ByFrom?.label}
         <IoArrowUpSharp className="text-xl text-green-700 rotate-180 md:rotate-90" />
-        {props.ByTo.label}
+        {props.ByTo?.label}
       </div>
       <div className="xs:text-sm md:hidden">{props.productName}</div>
       <div className="xs:text-sm">
