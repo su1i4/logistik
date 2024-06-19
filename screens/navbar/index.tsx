@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import { FaBoxOpen } from "react-icons/fa";
 import { MdLocalPhone } from "react-icons/md";
@@ -26,17 +26,21 @@ export const Header = () => {
     router.push("/");
   };
 
-  const getButtonContent = () => {
+  const [buttonContent, setButtonContent] = useState<string>("");
+  const [startContent, setStartContent] = useState<any>(null);
+
+  useEffect(() => {
     if (token !== "AUTHORIZED") {
-      return <p className="text-white">Добавить груз</p>;
+      setButtonContent("Добавить груз");
+      setStartContent(<FaBoxOpen className="text-white text-lg" />);
+    } else if (token === "AUTHORIZED" && pathName === "/admin") {
+      setButtonContent("Выйти");
+      setStartContent(null);
+    } else {
+      setButtonContent("К админу");
+      setStartContent(null);
     }
-
-    if (token === "AUTHORIZED" && pathName === "/admin") {
-      return <p className="text-white">Выйти</p>;
-    }
-
-    return <p className="text-white">К админу</p>;
-  };
+  }, [token, pathName]);
 
   const handleButtonClick = () => {
     if (token !== "AUTHORIZED") {
@@ -80,13 +84,9 @@ export const Header = () => {
             className="font-mono"
             radius="full"
             variant="bordered"
-            startContent={
-              token !== "AUTHORIZED" ? (
-                <FaBoxOpen className="text-white text-lg" />
-              ) : null
-            }
+            startContent={startContent}
           >
-            {getButtonContent()}
+            <p className="text-white">{buttonContent}</p>
           </Button>
         </div>
         <NavbarMenuToggle
@@ -103,13 +103,9 @@ export const Header = () => {
             className="font-mono"
             radius="full"
             variant="bordered"
-            startContent={
-              token !== "AUTHORIZED" ? (
-                <FaBoxOpen className="text-white text-lg" />
-              ) : null
-            }
+            startContent={startContent}
           >
-            {getButtonContent() || "hello"}
+            <p className="text-white">{buttonContent}</p>
           </Button>
           <Link className="w-full" href="/contacts">
             <Button
