@@ -26,8 +26,8 @@ export const Login = ({ isOpen, onOpenChange }: ModalProps) => {
 
   const [login, { isLoading }] = useLazyLoginQuery();
   const [state, setState] = useState({
-    login: "Logistkgjrtl",
-    password: "MrmnStmr",
+    login: "",
+    password: "",
   });
 
   const changeValue = (event: any) => {
